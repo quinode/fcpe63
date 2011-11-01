@@ -1,0 +1,25 @@
+# File types #
+##############
+*.pyc
+*.tmproj
+#*.json
+@@*
+
+# Directories #
+###############
+logs
+static_collected
+
+# Specific files #
+##################
+#/settings.py
+/local_settings.py
+/fcpe/fixtures/fcpe63.json
+
+# OS generated files #
+######################
+.DS_Store
+Icon?
+Thumbs.db
+
+
