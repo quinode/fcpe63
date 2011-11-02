@@ -1,5 +1,3 @@
 Django==1.3.1
-django-tinymce==1.5.1a2
-emencia.django.newsletter==0.2
--e git+git://github.com/brosner/django-tagging.git#tagging
 South==0.7.3
+django-extensions==0.7.1

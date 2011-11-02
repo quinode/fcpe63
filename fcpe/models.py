@@ -127,7 +127,7 @@ class Engagement(models.Model):
     adherent = models.ForeignKey(Adherent)
     conseil_local = models.ForeignKey(ConseilLocal,related_name='adhesions')
     adhesion_primaire = models.BooleanField(default=True)
-    role = models.ForeignKey(Role,default=Role.objects.get(libelle='Membre').id)
+    role = models.ForeignKey(Role,default='8')
     class Meta:
         verbose_name = "Adhésion"
         verbose_name_plural = "Adhésions"
