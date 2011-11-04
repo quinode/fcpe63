@@ -6,8 +6,8 @@ from fcpe.models import *
 from django_mailman.models import List
 
 
-from autocomplete.views import autocomplete, AutocompleteSettings
-from autocomplete.admin import AutocompleteAdmin
+#from autocomplete.views import autocomplete, AutocompleteSettings
+#from autocomplete.admin import AutocompleteAdmin
 
 
 # from django.utils.safestring import mark_safe
