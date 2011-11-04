@@ -4,14 +4,11 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+#from autocomplete.views import autocomplete
 
-from autocomplete.views import autocomplete
-    
-    
 
 urlpatterns = patterns('',
-    url('^autocomplete/', include(autocomplete.urls)),
-    url(r'^newsletters/', include('emencia.django.newsletter.urls')),
+#    url('^autocomplete/', include(autocomplete.urls)),
     #url(r'^$', 'fcpe63.views.home', name='home'),
     #url(r'^fcpe/', include('fcpe.urls')),
 
