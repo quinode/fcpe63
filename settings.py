@@ -52,9 +52,9 @@ STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = (
-    os.path.join(DIRNAME+'static/'),
-    os.path.join(DIRNAME+'djaloha/static/'),
-    os.path.join(DIRNAME+'rss_sync/static/'),
+    os.path.join(DIRNAME+'/static/'),
+    #os.path.join(DIRNAME+'/djaloha/static/'),
+    #os.path.join(DIRNAME+'/rss_sync/static/'),
     #os.path.abspath(ADMIN_TOOLS_PATH+'/media/'),
 )
 
@@ -115,7 +115,7 @@ INSTALLED_APPS = (
 #ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'base.dashboard.CustomAppIndexDashboard'
 #ADMIN_TOOLS_THEMING_CSS = 'css/coop_theming.css'
 
-AUTOCOMPLETE_MEDIA_PREFIX = '/static/autocomplete/media/'
+#AUTOCOMPLETE_MEDIA_PREFIX = '/static/autocomplete/media/'
 #ADMINBROWSE_MEDIA_URL= '/static/adminbrowse/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
