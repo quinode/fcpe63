@@ -49,7 +49,7 @@ MEDIA_URL = '/static/uploads/'
 
 STATIC_ROOT = os.path.join(DIRNAME, 'static_collected/')
 STATIC_URL = '/static/'
-#ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = (
     os.path.join(DIRNAME+'static/'),

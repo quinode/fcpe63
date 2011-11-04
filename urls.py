@@ -5,6 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 #from autocomplete.views import autocomplete
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 urlpatterns = patterns('',
@@ -16,3 +17,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     
 )
+
+urlpatterns += staticfiles_urlpatterns()
