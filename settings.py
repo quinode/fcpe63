@@ -44,16 +44,16 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
 
-MEDIA_ROOT = os.path.join(DIRNAME, '/static/uploads/')
+MEDIA_ROOT = os.path.join(DIRNAME, 'static/uploads/')
 MEDIA_URL = '/static/uploads/'
 
-STATIC_ROOT = os.path.join(DIRNAME, '/static_collected/')
+STATIC_ROOT = os.path.join(DIRNAME, 'static_collected/')
 STATIC_URL = '/static/'
 #ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = (
-    os.path.join(DIRNAME+'/static/'),
-    os.path.join(DIRNAME+'/static/admin/'),
+    os.path.join(DIRNAME+'static/'),
+    os.path.join(DIRNAME+'static/admin/'),
     #os.path.join(DIRNAME+'/djaloha/static/'),
     #os.path.join(DIRNAME+'/rss_sync/static/'),
     #os.path.abspath(ADMIN_TOOLS_PATH+'/media/'),
