@@ -63,7 +63,7 @@ class EngagementInline(admin.TabularInline):
     extra = 1
 
 class AdherentAdmin(admin.ModelAdmin):
-    list_display = ('nom','prenom','cfoyer','nb_enfants','telephone','mobile','code_postal','commune')
+    list_display = ('nom','prenom','cfoyer','nb_enfants','telephone','mobile','email','commune')
     search_fields = ['nom','prenom','email','cfoyer','adhesion_id']
     raw_id_fields = ('commune',)
     inlines = [ FamilleInline, EngagementInline]
