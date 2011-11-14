@@ -56,12 +56,17 @@ class FamilleInline(admin.TabularInline):
     fields = ('nom','prenom','classe','etablissement')
     raw_id_fields = ('etablissement',)
     extra = 0
+    
+
+class EngagementInline(admin.TabularInline):
+    model = Engagement
+    extra = 1
 
 class AdherentAdmin(admin.ModelAdmin):
     list_display = ('nom','prenom','cfoyer','nb_enfants','telephone','mobile','code_postal','commune')
     search_fields = ['nom','prenom','email','cfoyer','adhesion_id']
     raw_id_fields = ('commune',)
-    inlines = [ FamilleInline, ]
+    inlines = [ FamilleInline, EngagementInline]
     filter_horizontal = ('listes','conseil_local')
     fieldsets = (
         (None, {

@@ -3,7 +3,6 @@
 # Django settings for fcpe63 project.
 
 import os
-
 DIRNAME = os.path.dirname(__file__)
 
 DEBUG = False
@@ -27,6 +26,9 @@ DATABASES = {
     }
 }
 
+
+TIME_ZONE = 'Europe/Paris'
+LANGUAGE_CODE = 'fr-FR'
 SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
@@ -34,7 +36,6 @@ USE_L10N = True
 import locale
 locale.setlocale(locale.LC_ALL,'')
 import django.conf.global_settings as DEFAULT_SETTINGS
-
 
 DEFAULT_CONTENT_TYPE = 'text/html'
 DEFAULT_CHARSET='utf-8'
@@ -44,19 +45,20 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
 
-MEDIA_ROOT = os.path.join(DIRNAME, 'static/uploads/')
+MEDIA_ROOT = os.path.join(DIRNAME,'static/uploads/')
 MEDIA_URL = '/static/uploads/'
 
-STATIC_ROOT = os.path.join(DIRNAME, 'static_collected/')
+STATIC_ROOT = os.path.join(DIRNAME,'static_collected/')
 STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = (
-    os.path.join(DIRNAME+'static/'),
-    os.path.join(DIRNAME+'static/admin/'),
-    #os.path.join(DIRNAME+'/djaloha/static/'),
-    #os.path.join(DIRNAME+'/rss_sync/static/'),
-    #os.path.abspath(ADMIN_TOOLS_PATH+'/media/'),
+    os.path.join(DIRNAME,'static/'),
+    #os.path.join(DIRNAME,'static/admin/'),
+    #os.path.join(DIRNAME,'djaloha/static/'),
+    #os.path.join(DIRNAME,'coop_cms/static/'),
+    #os.path.join(DIRNAME,'/rss_sync/static/'),
+    #os.path.abspath(ADMIN_TOOLS_PATH,'/media/'),
 )
 
 # List of finder classes that know how to find static files in
@@ -88,7 +90,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'fcpe63.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(DIRNAME+'templates/'),    
+    os.path.join(DIRNAME+'/templates/'),    
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -108,8 +110,27 @@ INSTALLED_APPS = (
     'south',
 #    'adminbrowse',
     'django_mailman',
+    
+    #coop_cms
+    'livesettings',
+    
+    'sorl.thumbnail',
+    'html_field',
+    'coop_cms',
+    'djaloha',
 
 )
+
+LIVESETTINGS_OPTIONS = \
+{
+    1: {
+    'DB': True,
+       'SETTINGS': {
+            u'coop_cms': {u'CONTENT_APPS': u'["coop_cms"]'}
+        }
+    }
+}
+
 
 #ADMIN_TOOLS_MENU = 'base.menu.CustomMenu'
 #ADMIN_TOOLS_INDEX_DASHBOARD = 'base.dashboard.CustomIndexDashboard'
@@ -120,7 +141,6 @@ INSTALLED_APPS = (
 #ADMINBROWSE_MEDIA_URL= '/static/adminbrowse/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 
 AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
     'utils.email_auth.EmailBackend',
@@ -134,7 +154,6 @@ CACHES = {
 }
 
 DJALOHA_LINK_MODELS = ('coop_cms.Article',)
-
 
 LIVESETTINGS_OPTIONS = \
 {

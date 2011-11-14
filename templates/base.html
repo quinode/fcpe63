@@ -1,0 +1,112 @@
+{% load i18n %}
+<html>
+<head>
+    {% block extra-head %}{% endblock %}
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
+    <meta name="description" content="{% block meta_description %}{% endblock %}" /> 
+    <meta name="google-site-verification" content="QLXJbEBuQxJgE1XcKht7ybGcac8d3yMhO4DKSJTSjDE" />
+    <title>{% block meta_title %}{% endblock %} | FCPE 63</title>
+        
+    <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}js/jquery-1.7.min.js"></script>        
+    
+    {% block stylesheet %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/960.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" />
+    {% endblock %}
+    
+    {% block javascript %}
+    {% endblock %}
+</head>
+<body>
+<div id="entete" class="container_12 blanc">
+    <div id="bandeau">
+    <h1>Fédération des Conseils Locaux de Parents d’Élèves<br/>
+        <span>Puy-de-Dôme (63)</span>
+        </h1>
+    <img alt="logo" id="logo" src="{{ STATIC_URL }}img/logo80.png" />
+    </div>
+    <div id="menubar">
+
+    <ul id="navigation">
+        <li><a href="#">Accueil</a><li>
+            <li class="sep">|</span>
+        <li><a href="#">La fédération</a><li>
+            <li class="sep">|</span>
+        <li><a href="#">Conseils Locaux</a><li>
+            <li class="sep">|</span>
+        <li><a href="#">Actions</a><li>
+            <li class="sep">|</span>
+        <li><a href="#">Partenaires</a><li>
+            <li class="sep">|</span>
+        <li><a href="#"><img src="{{ STATIC_URL }}img/email.png" alt="email" id="email">
+            Contactez la FCPE 63</a><li>
+    </ul>
+
+    </div>
+
+</div>
+
+
+ <div class="container_12 blanc">
+    <div id="page">
+        
+        <div class="grid_8 content_wrapper">
+            <div class="content">
+        {% block content %}
+            <!--contenu-->        
+        {% endblock %}
+            </div>
+        </div>
+        
+        <div class="grid_4 colonne_wrapper">
+        {% block colonne %}
+            <div class=colonne>
+                <div class="widget" id="search">
+                    <input type="text" name="search" value="rechercher sur le site">
+                </div>
+            
+                <div class="widget" id="national">
+                    <h4>Actualité nationale</h4>
+                
+            
+                </div>
+            
+                <div class="widget" id="local">
+                    <h4>Conseil Locaux</h4>
+                
+            
+                </div>
+            
+                <div class="widget" id="tags">
+                    <h4>Thématiques</h4>
+                
+            
+                </div>
+            </div>
+                   
+        {% endblock %}
+        </div>
+
+
+    </div>
+
+
+    <div class="clear"></div>
+
+    <div id="footer">
+    {% block footer %}
+
+   
+    
+    {% endblock %}
+    </div>
+
+</div>
+
+{% block page-close %}
+
+{% endblock %}
+
+</body></html>
