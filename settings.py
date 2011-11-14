@@ -53,7 +53,7 @@ STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = (
-    os.path.join(DIRNAME,'static/'),
+    os.path.join(DIRNAME,'/static/'),
     #os.path.join(DIRNAME,'static/admin/'),
     #os.path.join(DIRNAME,'djaloha/static/'),
     #os.path.join(DIRNAME,'coop_cms/static/'),
