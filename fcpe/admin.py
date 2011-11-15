@@ -5,45 +5,46 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from fcpe.models import *
 from django_mailman.models import List
 
+from fcpe.autocomplete_admin import FkAutocompleteAdmin,InlineAutocompleteAdmin
 
 #from autocomplete.views import autocomplete, AutocompleteSettings
 #from autocomplete.admin import AutocompleteAdmin
 
 
-# from django.utils.safestring import mark_safe
-# class ModelLinkWidget(forms.Widget):
-#     def __init__(self, obj, attrs=None):
-#         self.object = obj
-#         super(ModelLinkWidget, self).__init__(attrs)
-#     def render(self, name, value, attrs=None):
-#         if self.object.pk:
-#             return mark_safe(u'<a target="_blank" href="../../../%s/%s/%s/">%s</a>' % (self.object._meta.app_label,
-#                     self.object._meta.object_name.lower(), self.object.pk, self.object))
-#         else:
-#             return mark_safe(u'')
-# 
-# 
-# class AdherMoreForm(forms.ModelForm):
-#     link = forms.CharField(label='link', required=False)
-#     def __init__(self, *args, **kwargs):
-#         super(AdherMoreForm, self).__init__(*args, **kwargs)
-#         # instance is always available, it just does or doesn't have pk.
-#         self.fields['link'].widget = ModelLinkWidget(self.instance)
-#     class Meta:
-#         model = Adherent
+from django.utils.safestring import mark_safe
+class ModelLinkWidget(forms.Widget):
+    def __init__(self, obj, attrs=None):
+        self.object = obj
+        super(ModelLinkWidget, self).__init__(attrs)
+    def render(self, name, value, attrs=None):
+        if self.object.pk:
+            return mark_safe(u'<a href="../../../%s/%s/%s/">%s</a>' % (self.object._meta.app_label,
+                    self.object.adherent._meta.object_name.lower(), self.object.adherent.pk, u'Fiche adhérent'))
+        else:
+            return mark_safe(u'')
 
-class AdherentsTriesFormset(forms.models.BaseInlineFormSet): 
-    def get_queryset(self): 
-        return super(AdherentsTriesFormset, self).get_queryset().order_by ('-role')
+
+class AdherMoreForm(forms.ModelForm):
+    link = forms.CharField(label='link', required=False)
+    def __init__(self, *args, **kwargs):
+        super(AdherMoreForm, self).__init__(*args, **kwargs)
+        # instance is always available, it just does or doesn't have pk.
+        self.fields['link'].widget = ModelLinkWidget(self.instance)
+    class Meta:
+        model = Adherent.conseil_local.through
+
+# class AdherentsTriesFormset(forms.models.BaseInlineFormSet): 
+#     def get_queryset(self): 
+#         return super(AdherentsTriesFormset, self).get_queryset().distinct().order_by('role')
 
 
 class AdherentInline(admin.TabularInline):
-    #form = AdherMoreForm
+    form = AdherMoreForm
     model = Adherent.conseil_local.through
     extra = 0
     raw_id_fields = ('adherent',)
-    formset = AdherentsTriesFormset
-    #fields = ('link','telephone','mobile','email')
+    #formset = AdherentsTriesFormset
+    fields = ('adherent','link','adhesion_primaire','role')
 
 # class AdherentAutocomplete(AutocompleteSettings):
 #     search_fields = ('^nom', '^prenom')
@@ -66,11 +67,13 @@ class FamilleInline(admin.TabularInline):
     extra = 0
     
 
-class EngagementInline(admin.TabularInline):
+class EngagementInline(InlineAutocompleteAdmin):
     model = Engagement
+    related_search_fields = {  'conseil_local': ('nom','commune__nom','commune__code_postal'), }
     extra = 1
 
-class AdherentAdmin(admin.ModelAdmin):
+
+class AdherentAdmin(FkAutocompleteAdmin):
     list_display = ('nom','prenom','cfoyer','nb_enfants','telephone','mobile','email','commune')
     search_fields = ['nom','prenom','email','cfoyer','adhesion_id']
     raw_id_fields = ('commune',)
@@ -111,7 +114,7 @@ admin.site.register(Adherent,AdherentAdmin)
 
 class EtabAdmin(admin.ModelAdmin):
     list_display = ('nom','code','perimetre','code_postal','commune')
-    search_fields = ['nom','commune']
+    search_fields = ['nom','commune__nom','commune__code_postal']
     raw_id_fields = ('commune',)
 admin.site.register(Etablissement, EtabAdmin)
 

@@ -131,6 +131,7 @@ class Engagement(models.Model):
     class Meta:
         verbose_name = "Adhésion"
         verbose_name_plural = "Adhésions"
+        ordering = ['role']
     def __unicode__(self):
         return u'Code foyer : '+self.adherent.cfoyer
         
