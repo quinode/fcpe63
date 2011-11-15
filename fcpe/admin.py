@@ -53,9 +53,9 @@ class AdherentInline(admin.TabularInline):
 
 
 
-class ConseilAdmin(admin.ModelAdmin):
+class ConseilAdmin(FkAutocompleteAdmin):
     list_display = ('nom','code','nb_adherents','code_postal','commune')
-    raw_id_fields = ('commune',)
+    related_search_fields = {  'commune': ('nom','maj','code_postal'), }
     search_fields = ['nom','code']
     inlines = [ AdherentInline, ]
 admin.site.register(ConseilLocal,ConseilAdmin)
@@ -76,7 +76,7 @@ class EngagementInline(InlineAutocompleteAdmin):
 class AdherentAdmin(FkAutocompleteAdmin):
     list_display = ('nom','prenom','cfoyer','nb_enfants','telephone','mobile','email','commune')
     search_fields = ['nom','prenom','email','cfoyer','adhesion_id']
-    raw_id_fields = ('commune',)
+    related_search_fields = {  'commune': ('nom','maj','code_postal'), }
     inlines = [ FamilleInline, EngagementInline]
     filter_horizontal = ('listes','conseil_local')
     fieldsets = (
@@ -112,10 +112,10 @@ class AdherentAdmin(FkAutocompleteAdmin):
         super(AdherentAdmin, self).save_model(request, obj, form, change)    
 admin.site.register(Adherent,AdherentAdmin)
 
-class EtabAdmin(admin.ModelAdmin):
+class EtabAdmin(FkAutocompleteAdmin):
     list_display = ('nom','code','perimetre','code_postal','commune')
     search_fields = ['nom','commune__nom','commune__code_postal']
-    raw_id_fields = ('commune',)
+    related_search_fields = {  'commune': ('nom','maj','code_postal'), }
 admin.site.register(Etablissement, EtabAdmin)
 
 admin.site.register(Classe)
