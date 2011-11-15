@@ -60,12 +60,19 @@ class ConseilAdmin(FkAutocompleteAdmin):
     inlines = [ AdherentInline, ]
 admin.site.register(ConseilLocal,ConseilAdmin)
 
+
+
 class FamilleInline(admin.TabularInline):
     model = Enfant
     fields = ('nom','prenom','classe','etablissement')
     raw_id_fields = ('etablissement',)
     extra = 0
-    
+
+
+class FoyerAdmin(FkAutocompleteAdmin):
+    list_display = ('code_foyer','nb_enfants','email','code_postal','commune',)
+    inlines = [ FamilleInline,]
+
 
 class EngagementInline(InlineAutocompleteAdmin):
     model = Engagement
@@ -74,7 +81,8 @@ class EngagementInline(InlineAutocompleteAdmin):
 
 
 class AdherentAdmin(FkAutocompleteAdmin):
-    list_display = ('nom','prenom','cfoyer','nb_enfants','telephone','mobile','email','commune')
+    list_display = ('nom','prenom','nb_enfants','telephone','mobile','email','commune')
+    list_filter = ('annee_scolaire')
     search_fields = ['nom','prenom','email','cfoyer','adhesion_id']
     related_search_fields = {  'commune': ('nom','maj','code_postal'), }
     inlines = [ FamilleInline, EngagementInline]

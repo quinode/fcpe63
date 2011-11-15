@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 from django.db import models
 from communes.models import Commune
-from django.contrib.localflavor.fr.forms import FRPhoneNumberField
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
@@ -72,6 +71,24 @@ class Role(models.Model):
     libelle = models.CharField(blank=True, max_length=100)
     def __unicode__(self):
         return self.libelle
+    class Meta:
+        verbose_name = "Rôle"
+        verbose_name_plural = "Rôles"
+
+class Foyer(models.Model):
+    adr1 = models.CharField(blank=True, max_length=100, verbose_name="Adresse")
+    adr2 = models.CharField(blank=True, max_length=100, verbose_name="Adresse")
+    commune = models.ForeignKey(Commune, null=True)
+    adhesion_id = models.IntegerField(blank=True, null=True,unique=True, verbose_name="ID Norma")
+    annee_scolaire = models.ForeignKey(AnneeScolaire,blank=True, null=True )
+    code_foyer = models.CharField(blank=True, max_length=11,unique=True, verbose_name="Code Foyer")
+    def code_postal(self):
+        return self.commune.code_postal
+    def __unicode__(self):
+        return u'Foyer '+self.code_foyer    
+    # def nb_enfants(self):
+    #     return self.famille.count()
+
 
 class Adherent(Personne):
     adr1 = models.CharField(blank=True, max_length=100, verbose_name="Adresse")
@@ -86,14 +103,15 @@ class Adherent(Personne):
     _cl =  models.CharField(blank=True, max_length=100, editable=False)
     cfoyer = models.CharField(blank=True, max_length=11,unique=True, verbose_name="Code Foyer")
     conseil_local = models.ManyToManyField(ConseilLocal,through='Engagement')
+    foyer = models.ForeignKey(Foyer, blank=True, null=True)
     #user = models.ForeignKey(User, blank=True, null=True, unique=True)
     class Meta:
         verbose_name = "Adhérent"
         verbose_name_plural = "Adhérents"
     def code_postal(self):
-        return self.commune.code_postal
+        return self.foyer.commune.code_postal
     def nb_enfants(self):
-        return self.famille.count()    
+        return self.foyer.famille.count()    
     def create_user(self):
         from random import Random
         rng = Random()
@@ -110,8 +128,6 @@ class Adherent(Personne):
         self.save()
         return([username,password])
 
-        
-
 
 class Enfant(models.Model):
     nom = models.CharField(blank=True, max_length=100)
@@ -120,6 +136,7 @@ class Enfant(models.Model):
     classe = models.ForeignKey(Classe)
     id_classe_norma = models.IntegerField(blank=True, null=True,editable=False)
     foyer = models.ForeignKey(Adherent,related_name='famille')
+    cfoyer = models.ForeignKey(Foyer, blank=True, null=True)
     def __unicode__(self):
          return self.prenom+u' '+self.nom+u' ('+self.classe.__unicode__()+u')'
 
@@ -133,6 +150,6 @@ class Engagement(models.Model):
         verbose_name_plural = "Adhésions"
         ordering = ['role']
     def __unicode__(self):
-        return u'Code foyer : '+self.adherent.cfoyer
+        return self.role + u' du Conseil local '+self.conseil_local
         
         
