@@ -108,6 +108,7 @@ class EtabAdmin(admin.ModelAdmin):
 admin.site.register(Etablissement, EtabAdmin)
 
 admin.site.register(Classe)
+admin.site.register(Role)
 admin.site.register(AnneeScolaire)
 admin.site.register(Personne)
 
