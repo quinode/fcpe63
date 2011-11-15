@@ -32,16 +32,24 @@ from django_mailman.models import List
 #     class Meta:
 #         model = Adherent
 
+class AdherentsTriesFormset(forms.models.BaseInlineFormSet): 
+    def get_queryset(self): 
+        return super(AdherentsTriesFormset, self).get_queryset().order_by ('-role')
+
+
 class AdherentInline(admin.TabularInline):
     #form = AdherMoreForm
     model = Adherent.conseil_local.through
     extra = 0
     raw_id_fields = ('adherent',)
+    formset = AdherentsTriesFormset
     #fields = ('link','telephone','mobile','email')
 
 # class AdherentAutocomplete(AutocompleteSettings):
 #     search_fields = ('^nom', '^prenom')
 # autocomplete.register(Adherent.conseil_local, AdherentAutocomplete)
+
+
 
 
 class ConseilAdmin(admin.ModelAdmin):
