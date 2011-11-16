@@ -85,7 +85,10 @@ class Foyer(models.Model):
     def code_postal(self):
         return self.commune.code_postal
     def __unicode__(self):
-        return u'Foyer '+self.code_foyer    
+        if self.code_foyer == None:
+            return u'Foyer (code manquant, à renseigner)'
+        else:
+            return u'Foyer '+self.code_foyer    
     def nb_enfants(self):
         return self.famille.count()
 

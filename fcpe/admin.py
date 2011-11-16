@@ -173,18 +173,12 @@ class AdherentAdmin(ModelLinkAdminFields, FkAutocompleteAdmin):
     filter_horizontal = ('listes','conseil_local')
     fieldsets = (
         (None, {
-            'fields': (('nom', 'prenom'), 'email','foyer','listes')
+            'fields': (('nom', 'prenom'), ('telephone', 'mobile'),'email','foyer','listes')
         }),
         ('Infos partenaires', {
             'classes': ('collapse',),
             'fields': ('organisation', 'role', )
         }),
-        ('Coordonnées', {
-            'fields': ('telephone', 'mobile',)
-        }),
-        # ('FCPE', {
-        #     'fields': ('annee_scolaire','cfoyer', 'adhesion_id')
-        # }),
         
     )
     def save_model(self, request, obj, form, change):
