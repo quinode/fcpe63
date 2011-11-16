@@ -63,8 +63,8 @@ class ParentLinkWidget(forms.Widget):
         super(ParentLinkWidget, self).__init__(attrs)
     def render(self, name, value, attrs=None):
         if self.object.pk:
-            return mark_safe(u'<a href="../../../%s/%s/%s/">%s</a>' % (self.object._meta.app_label,
-                    self.object._meta.object_name.lower(), self.object.pk, u'Fiche complète'))
+            return mark_safe(u'<b><a href="../../../%s/%s/%s/">%s</a></b>' % (self.object._meta.app_label,
+                    self.object._meta.object_name.lower(), self.object.pk, u'Fiche adhérent'))
         else:
             return mark_safe(u'')
 
@@ -73,7 +73,7 @@ class ParentInlineForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ParentInlineForm, self).__init__(*args, **kwargs)
         # instance is always available, it just does or doesn't have pk.
-        self.fields['link'].widget = ModelLinkWidget(self.instance)
+        self.fields['link'].widget = ParentLinkWidget(self.instance)
     class Meta:
         model = Adherent
 
@@ -128,7 +128,7 @@ class ModelLinkWidget(forms.HiddenInput):
 
     def render(self, name, value, attrs=None):
         if self.original_object is not None:
-            link = '%s%s/%s/%d' % (self.admin_site.root_path,
+            link = '/admin/%s/%s/%d/' % (
                                    self.original_object._meta.app_label, 
                                    self.original_object._meta.module_name,
                                    self.original_object.id)
