@@ -16,3 +16,4 @@ def enfants():
     for e in Enfant.objects.all():
         e.cfoyer = e.foyer.foyer
         e.save()              
+        

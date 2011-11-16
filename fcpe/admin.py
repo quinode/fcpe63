@@ -12,10 +12,13 @@ from fcpe.autocomplete_admin import FkAutocompleteAdmin,InlineAutocompleteAdmin
 
 
 from django.utils.safestring import mark_safe
-class ModelLinkWidget(forms.Widget):
+from django.utils.html import escape
+
+
+class AdherLinkWidget(forms.Widget):
     def __init__(self, obj, attrs=None):
         self.object = obj
-        super(ModelLinkWidget, self).__init__(attrs)
+        super(AdherLinkWidget, self).__init__(attrs)
     def render(self, name, value, attrs=None):
         if self.object.pk:
             return mark_safe(u'<a href="../../../%s/%s/%s/">%s</a>' % (self.object._meta.app_label,
@@ -29,13 +32,9 @@ class AdherMoreForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AdherMoreForm, self).__init__(*args, **kwargs)
         # instance is always available, it just does or doesn't have pk.
-        self.fields['link'].widget = ModelLinkWidget(self.instance)
+        self.fields['link'].widget = AdherLinkWidget(self.instance)
     class Meta:
         model = Adherent.conseil_local.through
-
-# class AdherentsTriesFormset(forms.models.BaseInlineFormSet): 
-#     def get_queryset(self): 
-#         return super(AdherentsTriesFormset, self).get_queryset().distinct().order_by('role')
 
 
 class AdherentInline(admin.TabularInline):
@@ -43,13 +42,7 @@ class AdherentInline(admin.TabularInline):
     model = Adherent.conseil_local.through
     extra = 0
     raw_id_fields = ('adherent',)
-    #formset = AdherentsTriesFormset
     fields = ('adherent','link','adhesion_primaire','role')
-
-# class AdherentAutocomplete(AutocompleteSettings):
-#     search_fields = ('^nom', '^prenom')
-# autocomplete.register(Adherent.conseil_local, AdherentAutocomplete)
-
 
 
 
@@ -62,16 +55,50 @@ admin.site.register(ConseilLocal,ConseilAdmin)
 
 
 
-class FamilleInline(admin.TabularInline):
+
+
+class ParentLinkWidget(forms.Widget):
+    def __init__(self, obj, attrs=None):
+        self.object = obj
+        super(ParentLinkWidget, self).__init__(attrs)
+    def render(self, name, value, attrs=None):
+        if self.object.pk:
+            return mark_safe(u'<a href="../../../%s/%s/%s/">%s</a>' % (self.object._meta.app_label,
+                    self.object._meta.object_name.lower(), self.object.pk, u'Fiche complète'))
+        else:
+            return mark_safe(u'')
+
+class ParentInlineForm(forms.ModelForm):
+    link = forms.CharField(label='link', required=False)
+    def __init__(self, *args, **kwargs):
+        super(ParentInlineForm, self).__init__(*args, **kwargs)
+        # instance is always available, it just does or doesn't have pk.
+        self.fields['link'].widget = ModelLinkWidget(self.instance)
+    class Meta:
+        model = Adherent
+
+
+
+
+class FamilleInline(InlineAutocompleteAdmin):
     model = Enfant
     fields = ('nom','prenom','classe','etablissement')
-    raw_id_fields = ('etablissement',)
+    related_search_fields = {  'etablissement': ('nom','commune__nom','commune__code_postal'), }
+    extra = 0
+
+
+class ParentsInline(InlineAutocompleteAdmin):
+    model = Adherent
+    form = ParentInlineForm
+    fields = ('nom','prenom','link','telephone','mobile','email')
     extra = 0
 
 
 class FoyerAdmin(FkAutocompleteAdmin):
-    list_display = ('code_foyer','nb_enfants','email','code_postal','commune',)
-    inlines = [ FamilleInline,]
+    list_display = ('code_foyer','nb_enfants','code_postal','commune',)
+    related_search_fields = {  'commune': ('nom','maj','code_postal'), }
+    inlines = [ParentsInline,FamilleInline]
+admin.site.register(Foyer,FoyerAdmin)
 
 
 class EngagementInline(InlineAutocompleteAdmin):
@@ -80,27 +107,84 @@ class EngagementInline(InlineAutocompleteAdmin):
     extra = 1
 
 
-class AdherentAdmin(FkAutocompleteAdmin):
+from django.contrib.admin.widgets import AdminTextInputWidget
+from django.core.urlresolvers import reverse
+
+class LinkWidget(AdminTextInputWidget):
+    def render(self, name, value, attrs=None):
+        #s = super(AdminTextInputWidget, self).render(name, value, attrs)
+        s = '<a href="%s">%s</a>' % ( value,
+            #reverse('admin:fcpe_foyer_change', (value.foyer.id,)),
+            'Voir la fiche du foyer')
+        return mark_safe(s)
+
+
+
+class ModelLinkWidget(forms.HiddenInput):
+    def __init__(self, admin_site, original_object):
+        self.admin_site = admin_site
+        self.original_object = original_object
+        super(ModelLinkWidget,self).__init__()
+
+    def render(self, name, value, attrs=None):
+        if self.original_object is not None:
+            link = '%s%s/%s/%d' % (self.admin_site.root_path,
+                                   self.original_object._meta.app_label, 
+                                   self.original_object._meta.module_name,
+                                   self.original_object.id)
+            enfants = '<p><b>Enfants : </b><br/><ul>'
+            for e in self.original_object.famille.all():
+                enfants += '<li>%s</li>' % unicode(e)
+            enfants += '</ul></p>'
+            return super(ModelLinkWidget, self).render(name, value, attrs) + mark_safe('''<a href="%s">%s</a>''' % (link, escape(unicode(self.original_object))) + enfants)
+                
+        else:
+            return "None"
+
+class ModelLinkAdminFields(object):
+    def get_form(self, request, obj=None):
+        form = super(ModelLinkAdminFields, self).get_form(request, obj)
+
+        if hasattr(self, 'modellink'):
+            for field_name in self.modellink:
+                if field_name in form.base_fields:
+                    form.base_fields[field_name].widget = ModelLinkWidget(self.admin_site, getattr(obj, field_name, ''))
+                    form.base_fields[field_name].required = False
+        return form
+
+
+class AdherentAdminForm(forms.ModelForm):
+    lien_foyer = forms.CharField(max_length=250)
+    def __init__(self, *args, **kwargs):
+        super(AdherentAdminForm, self).__init__(*args, **kwargs)
+        self.fields['lien_foyer'].required = False
+        self.fields['lien_foyer'].widget = LinkWidget()
+    class Meta:
+        model = Adherent
+
+class AdherentAdmin(ModelLinkAdminFields, FkAutocompleteAdmin):
+    #form = AdherentAdminForm
+    modellink = ('foyer',)
     list_display = ('nom','prenom','nb_enfants','telephone','mobile','email','commune')
-    list_filter = ('annee_scolaire')
+    list_filter = ('annee_scolaire',)
     search_fields = ['nom','prenom','email','cfoyer','adhesion_id']
     related_search_fields = {  'commune': ('nom','maj','code_postal'), }
-    inlines = [ FamilleInline, EngagementInline]
+    inlines = [EngagementInline,]
     filter_horizontal = ('listes','conseil_local')
     fieldsets = (
         (None, {
-            'fields': ('nom', 'prenom', 'email','listes')
+            'fields': (('nom', 'prenom'), 'email','foyer','listes')
         }),
         ('Infos partenaires', {
             'classes': ('collapse',),
             'fields': ('organisation', 'role', )
         }),
         ('Coordonnées', {
-            'fields': ('telephone', 'mobile', 'adr1','adr2','commune')
+            'fields': ('telephone', 'mobile',)
         }),
-        ('FCPE', {
-            'fields': ('annee_scolaire','cfoyer', 'adhesion_id')
-        }),
+        # ('FCPE', {
+        #     'fields': ('annee_scolaire','cfoyer', 'adhesion_id')
+        # }),
         
     )
     def save_model(self, request, obj, form, change):

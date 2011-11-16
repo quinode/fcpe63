@@ -86,18 +86,18 @@ class Foyer(models.Model):
         return self.commune.code_postal
     def __unicode__(self):
         return u'Foyer '+self.code_foyer    
-    # def nb_enfants(self):
-    #     return self.famille.count()
+    def nb_enfants(self):
+        return self.famille.count()
 
 
 class Adherent(Personne):
-    adr1 = models.CharField(blank=True, max_length=100, verbose_name="Adresse")
-    adr2 = models.CharField(blank=True, max_length=100, verbose_name="Adresse")
-    commune = models.ForeignKey(Commune, null=True)
+    adr1 = models.CharField(blank=True, max_length=100, verbose_name="Adresse", editable=False)
+    adr2 = models.CharField(blank=True, max_length=100, verbose_name="Adresse", editable=False)
+    commune = models.ForeignKey(Commune, null=True, editable=False)
     telephone = models.CharField(blank=True, max_length=100)
     mobile = models.CharField(blank=True, max_length=100)
-    adhesion_id = models.IntegerField(blank=True, null=True,unique=True, verbose_name="ID Norma")
-    annee_scolaire = models.ForeignKey(AnneeScolaire)
+    adhesion_id = models.IntegerField(blank=True, null=True,unique=True, verbose_name="ID Norma", editable=False)
+    annee_scolaire = models.ForeignKey(AnneeScolaire, editable=False)
     _cp = models.CharField(blank=True, max_length=5, editable=False)
     _ville = models.CharField(blank=True, max_length=100, editable=False)
     _cl =  models.CharField(blank=True, max_length=100, editable=False)
@@ -108,8 +108,15 @@ class Adherent(Personne):
     class Meta:
         verbose_name = "Adhérent"
         verbose_name_plural = "Adhérents"
+    def lien_foyer(self):
+        return '<a href="%s">%s</a>' % (
+                             reverse('admin:fcpe_foyer_change', (self.foyer.id,)),
+                             'Voir la fiche du foyer'
+                     )  
     def code_postal(self):
         return self.foyer.commune.code_postal
+    def code_postal(self):
+        return self.foyer.commune.nom    
     def nb_enfants(self):
         return self.foyer.famille.count()    
     def create_user(self):
@@ -135,8 +142,8 @@ class Enfant(models.Model):
     etablissement = models.ForeignKey(Etablissement)
     classe = models.ForeignKey(Classe)
     id_classe_norma = models.IntegerField(blank=True, null=True,editable=False)
-    foyer = models.ForeignKey(Adherent,related_name='famille')
-    cfoyer = models.ForeignKey(Foyer, blank=True, null=True)
+    #foyer = models.ForeignKey(Adherent)
+    cfoyer = models.ForeignKey(Foyer,related_name='famille')
     def __unicode__(self):
          return self.prenom+u' '+self.nom+u' ('+self.classe.__unicode__()+u')'
 
@@ -150,6 +157,6 @@ class Engagement(models.Model):
         verbose_name_plural = "Adhésions"
         ordering = ['role']
     def __unicode__(self):
-        return self.role + u' du Conseil local '+self.conseil_local
+        return self.role.__unicode__() + u' du Conseil local '+self.conseil_local.__unicode__()
         
         
