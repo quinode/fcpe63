@@ -86,9 +86,9 @@ class Foyer(models.Model):
         return self.commune.code_postal
     def __unicode__(self):
         if not self.code_foyer:
-            return u'Foyer (code foyer FCPE manquant, à renseigner!)'
+            return u'Foyer %s (code foyer FCPE manquant, à renseigner!)' % self.pk
         else:
-            return u'Foyer '+self.code_foyer    
+            return u'Foyer FCPE '+self.code_foyer    
     def nb_enfants(self):
         return self.famille.count()
 
@@ -100,7 +100,7 @@ class Adherent(Personne):
     telephone = models.CharField(blank=True, max_length=100)
     mobile = models.CharField(blank=True, max_length=100)
     adhesion_id = models.IntegerField(blank=True, null=True,unique=True, verbose_name="ID Norma", editable=False)
-    annee_scolaire = models.ForeignKey(AnneeScolaire, editable=False)
+    annee_scolaire = models.ForeignKey(AnneeScolaire,blank=True, null=True, editable=False)
     _cp = models.CharField(blank=True, max_length=5, editable=False)
     _ville = models.CharField(blank=True, max_length=100, editable=False)
     _cl =  models.CharField(blank=True, max_length=100, editable=False)
