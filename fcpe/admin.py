@@ -63,8 +63,7 @@ class ParentLinkWidget(forms.Widget):
         super(ParentLinkWidget, self).__init__(attrs)
     def render(self, name, value, attrs=None):
         if self.object.pk:
-            return mark_safe(u'<b><a href="../../../%s/%s/%s/">%s</a></b>' % (self.object._meta.app_label,
-                    self.object._meta.object_name.lower(), self.object.pk, u'Fiche adhérent'))
+            return mark_safe(u'<b><a href="../../../fcpe/adherent/%s/">%s</a></b>' % (self.object.pk, u'Fiche adhérent'))
         else:
             return mark_safe(u'')
 
@@ -127,19 +126,15 @@ class ModelLinkWidget(forms.HiddenInput):
         super(ModelLinkWidget,self).__init__()
 
     def render(self, name, value, attrs=None):
-        if self.original_object is not None:
-            link = '/admin/%s/%s/%d/' % (
-                                   self.original_object._meta.app_label, 
-                                   self.original_object._meta.module_name,
-                                   self.original_object.id)
+        if value is not None:
+            link = '/admin/fcpe/foyer/%d/' % (self.original_object.pk)
             enfants = '<p><b>Enfants : </b><br/><ul>'
             for e in self.original_object.famille.all():
                 enfants += '<li>%s</li>' % unicode(e)
             enfants += '</ul></p>'
             return super(ModelLinkWidget, self).render(name, value, attrs) + mark_safe('''<a href="%s">%s</a>''' % (link, escape(unicode(self.original_object))) + enfants)
-                
         else:
-            return "None"
+            return mark_safe(u'<b>Vous ajoutez un adhérent sans avoir préalablement <a href="/admin/fcpe/foyer/add/">créé son Foyer</a> ! </b>')
 
 class ModelLinkAdminFields(object):
     def get_form(self, request, obj=None):
