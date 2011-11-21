@@ -81,7 +81,7 @@ class Foyer(models.Model):
     commune = models.ForeignKey(Commune, null=True)
     adhesion_id = models.IntegerField(blank=True, null=True,unique=True, verbose_name="ID Norma")
     annee_scolaire = models.ForeignKey(AnneeScolaire,blank=True, null=True )
-    code_foyer = models.CharField(blank=True, max_length=11,unique=True, verbose_name="Code Foyer")
+    code_foyer = models.CharField(blank=True, max_length=11,verbose_name="Code Foyer")
     def code_postal(self):
         return self.commune.code_postal
     def __unicode__(self):
