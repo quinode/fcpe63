@@ -94,8 +94,9 @@ class ParentsInline(InlineAutocompleteAdmin):
 
 
 class FoyerAdmin(FkAutocompleteAdmin):
-    list_display = ('__unicode__','nb_enfants','code_postal','commune',)
+    list_display = ('__unicode__','nom_adherent1','nb_enfants','commune',)
     related_search_fields = {  'commune': ('nom','maj','code_postal'), }
+    search_fields = ['code_foyer','commune__code_postal','commune__nom','commune__maj','rattachement__nom']
     inlines = [ParentsInline,FamilleInline]
 admin.site.register(Foyer,FoyerAdmin)
 

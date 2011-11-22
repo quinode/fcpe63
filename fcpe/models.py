@@ -91,6 +91,8 @@ class Foyer(models.Model):
             return u'Foyer FCPE '+self.code_foyer    
     def nb_enfants(self):
         return self.famille.count()
+    def nom_adherent1(self):
+        return self.rattachement.all()[0]    
 
 
 class Adherent(Personne):
@@ -104,9 +106,9 @@ class Adherent(Personne):
     _cp = models.CharField(blank=True, max_length=5, editable=False)
     _ville = models.CharField(blank=True, max_length=100, editable=False)
     _cl =  models.CharField(blank=True, max_length=100, editable=False)
-    cfoyer = models.CharField(blank=True, max_length=11,unique=True, verbose_name="Code Foyer")
+    cfoyer = models.CharField(blank=True, max_length=11, verbose_name="Code Foyer")
     conseil_local = models.ManyToManyField(ConseilLocal,through='Engagement')
-    foyer = models.ForeignKey(Foyer, blank=True, null=True)
+    foyer = models.ForeignKey(Foyer, blank=True, null=True,related_name='rattachement')
     #user = models.ForeignKey(User, blank=True, null=True, unique=True)
     class Meta:
         verbose_name = "Adhérent"
@@ -115,7 +117,7 @@ class Adherent(Personne):
         return '<a href="%s">%s</a>' % (
                              reverse('admin:fcpe_foyer_change', (self.foyer.id,)),
                              'Voir la fiche du foyer'
-                     )  
+                     )
     def code_postal(self):
         return self.foyer.commune.code_postal
     def code_postal(self):
