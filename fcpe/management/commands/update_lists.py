@@ -24,7 +24,7 @@ class Command(BaseCommand):
                 lists['general'].subscribe(t.email, to_ascii(t.prenom), to_ascii(t.nom))
                 t.listes.add(lists['general'])
         adherents = Adherent.objects.exclude(email='')
-        for a in adherents:
+        for t in adherents:
             if lists['adherents'] not in t.listes.all() and not t.optout:
                 lists['adherents'].subscribe(t.email, to_ascii(t.prenom), to_ascii(t.nom))
                 t.listes.add(lists['adherents'])
