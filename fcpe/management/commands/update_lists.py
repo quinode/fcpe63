@@ -28,16 +28,16 @@ class Command(BaseCommand):
             if lists['adherents'] not in t.listes.all() and not t.optout:
                 lists['adherents'].subscribe(t.email, to_ascii(t.prenom), to_ascii(t.nom))
                 t.listes.add(lists['adherents'])
-        cl = ConseilLocal.objects.exclude(primaire=False,secondaire=False)
+        conseils = ConseilLocal.objects.exclude(primaire=False,secondaire=False)
         membre = Role.objects.get(libelle='Membre')
-        for c in cl:
+        for cl in conseils:
             if(cl.adhesions.all().count() > 0):
                 for e in cl.adhesions.exclude(role=membre):
-                    if c.primaire and lists['responsables-clp'] not in e.listes.all() and not e.optout:
+                    if cl.primaire and lists['responsables-clp'] not in e.listes.all() and not e.optout:
                         print 'primaire',cl,e
                         #lists['responsables-clp'].subscribe(e.email, to_ascii(e.prenom), to_ascii(e.nom))
                         #e.listes.add(lists['responsables-clp'])
-                    if c.secondaire and lists['responsables-cls'] not in e.listes.all() and not e.optout:
+                    if cl.secondaire and lists['responsables-cls'] not in e.listes.all() and not e.optout:
                         print 'secondaire',cl,e
                         #lists['responsables-cls'].subscribe(e.email, to_ascii(e.prenom), to_ascii(e.nom))
                         #e.listes.add(lists['responsables-cls'])
