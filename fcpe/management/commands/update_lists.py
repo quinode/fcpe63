@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from django.core.management.base import BaseCommand
-from fcpe.models import Personne
+from fcpe.models import Personne, Adherent, ConseilLocal
 from django_mailman.models import List
 
 import unicodedata
