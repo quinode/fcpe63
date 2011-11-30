@@ -51,6 +51,19 @@ body {
 
 #page {
 	height: 800px;
+	font: 16px/20px Arial;
+}
+
+.blogrss a{
+	text-align: center;
+	text-decoration: none;
+	font: 13px/18px Ubuntu,"Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+.blogrss p{
+	margin-top: 5px;
+	padding-top: 5px;
+	border-top: 1px solid #adadad;
 }
 
 /* @group Bandeau */

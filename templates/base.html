@@ -63,13 +63,14 @@
         <div class="grid_4 colonne_wrapper">
         {% block colonne %}
             <div class=colonne>
-                <div class="widget" id="search">
+                <!--<div class="widget" id="search">
                     <input type="text" name="search" value="rechercher sur le site">
-                </div>
+                </div>-->
             
                 <div class="widget" id="national">
                     <h4>Actualité nationale</h4>
                 
+                    {% include 'rssplug/feed.html' %}
             
                 </div>
             
