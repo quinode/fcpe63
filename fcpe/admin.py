@@ -15,6 +15,13 @@ from django.utils.safestring import mark_safe
 from django.utils.html import escape
 
 
+import unicodedata
+def to_ascii(input_str):
+    nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
+    only_ascii = nkfd_form.encode('ASCII', 'ignore')
+    return only_ascii
+
+
 class AdherLinkWidget(forms.Widget):
     def __init__(self, obj, attrs=None):
         self.object = obj
@@ -160,7 +167,35 @@ class AdherentAdminForm(forms.ModelForm):
     class Meta:
         model = Adherent
 
-class AdherentAdmin(ModelLinkAdminFields, FkAutocompleteAdmin):
+class PersonneAdmin(admin.ModelAdmin):
+    list_display = ('nom', 'prenom', 'partenaire','email')
+    filter_horizontal = ('listes',)
+    list_filter = ('partenaire',)
+    search_fields = ['nom','prenom','email']
+    def save_model(self, request, obj, form, change):
+        #prev = obj.listes.values_list('id',flat=True)
+        if change:
+            prev = obj.listes.all()
+            new = form.cleaned_data['listes']
+            #print prev,new
+            for liste in prev :
+                if liste not in new :
+                    liste.unsubscribe(form.cleaned_data['email'])
+                    print "desinscription de %s de la liste %s" % (form.cleaned_data['email'],liste.name)
+            for liste in new :
+                if form.cleaned_data['email'] == '':
+                    raise forms.ValidationError("Pour inscrire une personne sur une liste, l'e-mail doit etre valide.")
+                if liste not in prev :
+                    print "inscription de %s (%s %s) sur %s" % (form.cleaned_data['email'],to_ascii(form.cleaned_data['prenom']), to_ascii(form.cleaned_data['nom']), liste.name)          
+                    liste.subscribe(    form.cleaned_data['email'], 
+                                        to_ascii(form.cleaned_data['prenom']), 
+                                        to_ascii(form.cleaned_data['nom']))    
+        super(PersonneAdmin, self).save_model(request, obj, form, change) 
+admin.site.register(Personne,PersonneAdmin)
+
+
+
+class AdherentAdmin(PersonneAdmin,ModelLinkAdminFields, FkAutocompleteAdmin):
     #form = AdherentAdminForm
     modellink = ('foyer',)
     list_display = ('nom','prenom','nb_enfants','telephone','mobile','email','commune')
@@ -175,7 +210,7 @@ class AdherentAdmin(ModelLinkAdminFields, FkAutocompleteAdmin):
         }),
         ('Infos partenaires', {
             'classes': ('collapse',),
-            'fields': ('organisation', 'role', )
+            'fields': ('partenaire','organisation', 'role', )
         }),
         
     )
@@ -184,16 +219,20 @@ class AdherentAdmin(ModelLinkAdminFields, FkAutocompleteAdmin):
         if change:
             prev = obj.listes.all()
             new = form.cleaned_data['listes']
-            print prev,new
+            #print prev,new
             for liste in prev :
                 if liste not in new :
                     liste.unsubscribe(form.cleaned_data['email'])
-                    print "se desinscrire de ",liste.name
+                    print "desinscription de %s de la liste %s" % (form.cleaned_data['email'],liste.name)
             for liste in new :
+                if form.cleaned_data['email'] == '':
+                    raise forms.ValidationError("Pour inscrire une personne sur une liste, l'e-mail doit etre valide.")
                 if liste not in prev :
-                    print "inscrire sur ",liste.name            
-                    liste.subscribe(form.cleaned_data['email'], form.cleaned_data['prenom'], form.cleaned_data['nom'])
-        super(AdherentAdmin, self).save_model(request, obj, form, change)    
+                    print "inscription de %s (%s %s) sur %s" % (form.cleaned_data['email'],to_ascii(form.cleaned_data['prenom']), to_ascii(form.cleaned_data['nom']), liste.name)          
+                    liste.subscribe(    form.cleaned_data['email'], 
+                                        to_ascii(form.cleaned_data['prenom']), 
+                                        to_ascii(form.cleaned_data['nom']))       
+        super(AdherentAdmin, self).save_model(request, obj, form, change)
 admin.site.register(Adherent,AdherentAdmin)
 
 class EtabAdmin(FkAutocompleteAdmin):
@@ -205,5 +244,5 @@ admin.site.register(Etablissement, EtabAdmin)
 admin.site.register(Classe)
 admin.site.register(Role)
 admin.site.register(AnneeScolaire)
-admin.site.register(Personne)
+
 

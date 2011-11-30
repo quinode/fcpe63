@@ -62,6 +62,7 @@ class Personne(models.Model):
     email = models.EmailField(blank=True)
     partenaire = models.BooleanField(default=False)
     listes = models.ManyToManyField(List,blank=True,null=True)
+    optout = models.BooleanField(default=False,verbose_name="Désinscription des listes")
     def __unicode__(self):
         return self.prenom+u' '+self.nom
     def clean(self):
