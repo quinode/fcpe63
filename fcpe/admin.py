@@ -47,7 +47,9 @@ class AdherentInline(admin.TabularInline):
 
 
 class ConseilAdmin(FkAutocompleteAdmin):
-    list_display = ('nom','code','nb_adherents','code_postal','commune')
+    list_display = ('nom','primaire','secondaire','code','nb_adherents','code_postal','commune')
+    list_display_links = ('nom',)
+    list_editable = ('primaire','secondaire')
     related_search_fields = {  'commune': ('nom','maj','code_postal'), }
     search_fields = ['nom','code']
     inlines = [ AdherentInline, ]

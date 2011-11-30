@@ -20,6 +20,8 @@ class ConseilLocal(models.Model):
     commune = models.ForeignKey(Commune)
     _cp = models.CharField(blank=True, max_length=5, editable=False)
     _ville = models.CharField(blank=True, max_length=100, editable=False)
+    primaire = models.BooleanField(default=False)
+    secondaire = models.BooleanField(default=False)
     def code_postal(self):
         return self.commune.code_postal
     def nb_adherents(self):
