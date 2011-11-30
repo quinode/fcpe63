@@ -34,11 +34,11 @@ class Command(BaseCommand):
             if(cl.adhesions.all().count() > 0):
                 for e in cl.adhesions.exclude(role=membre):
                     if cl.primaire and lists['responsables-clp'] not in e.adherent.listes.all() and not e.adherent.optout:
-                        print 'primaire',cl,e.adherent
-                        #lists['responsables-clp'].subscribe(e.adherent.email, to_ascii(e.adherent.prenom), to_ascii(e.adherent.nom))
-                        #e.adherent.listes.add(lists['responsables-clp'])
+                        #print 'primaire',cl,e.adherent
+                        lists['responsables-clp'].subscribe(e.adherent.email, to_ascii(e.adherent.prenom), to_ascii(e.adherent.nom))
+                        e.adherent.listes.add(lists['responsables-clp'])
                     if cl.secondaire and lists['responsables-cls'] not in e.adherent.listes.all() and not e.adherent.optout:
-                        print 'secondaire',cl,e.adherent
-                        #lists['responsables-cls'].subscribe(e.adherent.email, to_ascii(e.adherent.prenom), to_ascii(e.adherent.nom))
-                        #e.adherent.listes.add(lists['responsables-cls'])
+                        #print 'secondaire',cl,e.adherent
+                        lists['responsables-cls'].subscribe(e.adherent.email, to_ascii(e.adherent.prenom), to_ascii(e.adherent.nom))
+                        e.adherent.listes.add(lists['responsables-cls'])
         
