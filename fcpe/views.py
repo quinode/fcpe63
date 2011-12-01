@@ -8,9 +8,15 @@ from django.shortcuts import get_object_or_404,redirect
 #from taggit.models import Tag
 from django.contrib.auth.models import User
 
-
-#from videos.models import Video,Commande
+from taggit.models import Tag
+from coop_cms.models import Article
 
 def home(request):
     rdict ={}
     return render_to_response('index.html',rdict,RequestContext(request))
+
+def tag(request, slug):
+    rdict = {}
+    rdict['tag'] = get_object_or_404(Tag, slug=slug)
+    rdict['articles'] = Article.objects.filter(tags__slug__in=[slug])
+    return render_to_response('tag.html',rdict,RequestContext(request))

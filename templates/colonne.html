@@ -1,0 +1,29 @@
+{% load taggit_extras %}
+        <div class=colonne>
+            <!--<div class="widget" id="search">
+                <input type="text" name="search" value="rechercher sur le site">
+            </div>-->
+        
+            <div class="widget" id="national">
+                <h4>Actualité nationale</h4>
+            
+                {% include 'rssplug/feed.html' %}
+        
+            </div>
+
+            <div class="widget" id="tags">
+                <h4>Thématiques</h4>
+                <ul class="tags">
+                {% get_taglist as tags for 'coop_cms.article' %}
+                {% for tag in tags %}
+                    <li class="tag{% if forloop.counter > 10 %} hidden{% endif %}">
+                        <a href="/tag/{{tag.slug}}/">{{tag}} ({{tag.num_times}})</a></li>
+                {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="widget" id="local">
+                <h4>Conseil Locaux</h4>
+        
+            </div>
+        </div>

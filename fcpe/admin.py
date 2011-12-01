@@ -245,4 +245,20 @@ admin.site.register(Classe)
 admin.site.register(Role)
 admin.site.register(AnneeScolaire)
 
+from coop_cms.models import Article
+from coop_cms.admin import ArticleAdmin
+from django.utils.translation import ugettext_lazy as _
+
+admin.site.unregister(Article)
+
+class ArticleFCPE(ArticleAdmin):
+    list_filter = ('tags',)
+    fieldsets = (
+        ('Arborescence', {'fields': ('navigation_parent',)}),
+        ('Contenu', {'fields': ('title', 'content')}),
+        ('Thématiques',{'fields': ('tags',)}),
+        (_('Publication'), {'fields': ('publication', 'created', 'modified')}),
+    )
+admin.site.register(Article, ArticleFCPE)
+
 

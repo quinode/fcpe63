@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n static coop_navigation %}
 <html>
 <head>
     {% block extra-head %}{% endblock %}
@@ -13,16 +13,19 @@
     {% block stylesheet %}
         <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/960.css" type="text/css" />
+        <link href="{{STATIC_URL}}css/admin_bar.css" type="text/css" rel="stylesheet" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" />
     {% endblock %}
     
-    {% block javascript %}
+    {% block extra_head %}{% endblock %}
+
+    {% block jquery_declaration %}
     {% endblock %}
 </head>
 <body>
 <div id="entete" class="container_12 blanc">
     <div id="bandeau">
-    <h1>Fédération des Conseils Locaux de Parents d’Élèves<br/>
+    <h1>Fédération des Conseils de Parents d’Élèves<br/>
         <span>Puy-de-Dôme (63)</span>
         </h1>
     <img alt="logo" id="logo" src="{{ STATIC_URL }}img/logo80.png" />
@@ -30,16 +33,10 @@
     <div id="menubar">
 
     <ul id="navigation">
-        <li><a href="#">Accueil</a><li>
-            <li class="sep">|</span>
-        <li><a href="#">La fédération</a><li>
-            <li class="sep">|</span>
-        <li><a href="#">Conseils Locaux</a><li>
-            <li class="sep">|</span>
-        <li><a href="#">Actions</a><li>
-            <li class="sep">|</span>
-        <li><a href="#">Partenaires</a><li>
-            <li class="sep">|</span>
+        
+        {% navigation_as_nested_ul li_template="coop_cms/menu_li.html" %}
+        
+       
         <li><a href="#"><img src="{{ STATIC_URL }}img/email.png" alt="email" id="email">
             Contactez la FCPE 63</a><li>
     </ul>
@@ -51,46 +48,24 @@
 
  <div class="container_12 blanc">
     <div id="page">
+    {% block document %}
         
         <div class="grid_8 content_wrapper">
             <div class="content">
         {% block content %}
+        {% block title %}<h2>Titre de la page</h2>{% endblock %}
             <!--contenu-->        
-        {% endblock %}
+        {% endblock content %}
             </div>
         </div>
         
         <div class="grid_4 colonne_wrapper">
         {% block colonne %}
-            <div class=colonne>
-                <!--<div class="widget" id="search">
-                    <input type="text" name="search" value="rechercher sur le site">
-                </div>-->
-            
-                <div class="widget" id="national">
-                    <h4>Actualité nationale</h4>
-                
-                    {% include 'rssplug/feed.html' %}
-            
-                </div>
-            
-                <div class="widget" id="local">
-                    <h4>Conseil Locaux</h4>
-                
-            
-                </div>
-            
-                <div class="widget" id="tags">
-                    <h4>Thématiques</h4>
-                
-            
-                </div>
-            </div>
-                   
-        {% endblock %}
+            {% include "colonne.html" %}
+        {% endblock colonne %}
         </div>
 
-
+    {% endblock document %}
     </div>
 
 
@@ -105,7 +80,7 @@
     </div>
 
 </div>
-
+{% include "coop_cms/_admin_bar.html" %}
 {% block page-close %}
 
 {% endblock %}

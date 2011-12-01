@@ -105,19 +105,21 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'communes',
-    'fcpe',
     'south',
 #    'adminbrowse',
     'django_mailman',
     
     #coop_cms
     'livesettings',
-    
     'sorl.thumbnail',
     'html_field',
+    'taggit',
+    'taggit_autocomplete_modified',
+    'taggit_templatetags',
     'coop_cms',
     'djaloha',
+    'communes',
+    'fcpe',
 
 )
 

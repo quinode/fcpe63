@@ -4,21 +4,21 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
-from fcpe import templatetags 
+#from fcpe import templatetags 
 
 #from autocomplete.views import autocomplete
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = patterns('',
-    url(r"^$", 'fcpe.views.home', name="home"),
+    url(r'^$', 'coop_cms.views.view_article', kwargs={'url':'accueil'}, name='coop_cms_view_article'),
+    url(r'^tag/(?P<slug>.*)/$', 'fcpe.views.tag', name='fcpe_tag'),
 
 #    url('^autocomplete/', include(autocomplete.urls)),
 #    url(r'^fcpe/', include('fcpe.urls')),
     (r'^settings/', include('livesettings.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    
-)
+    url(r'^taggit_autocomplete_modified/', include('taggit_autocomplete_modified.urls')),)
 
 urlpatterns += staticfiles_urlpatterns()
 

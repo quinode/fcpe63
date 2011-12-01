@@ -1,0 +1,11 @@
+{% load i18n %}
+<li>
+    <h4><a href="{{ item.get_absolute_url }}">{{ item.title|safe }}</a></h4>
+    <div class="article_details"><span class="date">
+        posté il y a {% blocktrans with item.created|timesince as when %}{{ when }}
+        {% endblocktrans %}</span> - Thèmes : {% for tag in item.tags.all %}
+        <span class="tag"><a href="/tag/{{tag.slug}}/">{{tag}}</a></span>
+        {% endfor %}
+    </div>
+    <p>{{ item.content|safe|truncatewords_html:50 }}</p>
+</li>

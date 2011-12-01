@@ -51,13 +51,19 @@ body {
 
 #page {
 	height: 800px;
-	font: 16px/20px Arial;
+	font: 1em/1.2em Arial;
+}
+
+.blogrss{
+	height: 250px;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 .blogrss a{
 	text-align: center;
 	text-decoration: none;
-	font: 13px/18px Ubuntu,"Lucida Grande", Lucida, Verdana, sans-serif;
+	font: 12px/16px Ubuntu,"Lucida Grande", Lucida, Verdana, sans-serif;
 }
 
 .blogrss p{
@@ -142,16 +148,53 @@ li.sep {
 
 /* @end */
 
+h2 a, h3 a, h4 a{
+	text-decoration: none;
+}
+
 h2 {
 	color: #2a4ca0;
-	font: 32px Museo500, "Trebuchet MS", Trebuchet, Tahoma, Arial;
+	font: 28px Museo500, "Trebuchet MS", Trebuchet, Tahoma, Arial;
 	margin-bottom: 10px;
 }
 
-h4 {
-	font: 15px Museo500, "Trebuchet MS", Trebuchet, Tahoma, Arial;
-	margin-bottom: 10px;
+h3{
+	color: #2a4ca0;
+	font: bold 23px Museo500, "Trebuchet MS", Trebuchet, Tahoma, Arial;
+	background-color: #ebf3f1;
+	padding: 5px 5px 5px 20px;
+	margin-bottom: 20px;
 }
+
+h4 {
+	font: bold 15px Ubuntu, "Trebuchet MS", Trebuchet, Tahoma, Arial;
+	color: #a8a8a8;
+	margin-bottom: 5px;
+}
+
+h4 a {
+	color: #7a7a7a;
+	font-size: 20px;
+}
+
+.article_details {
+	color: #7a7a7a;
+	font: 15px Ubuntu, "Trebuchet MS", Trebuchet, Tahoma, Arial;
+	margin-bottom: 15px;
+}
+
+ul.last_articles > li > p{
+	padding-left: 10px;
+	font-size: 0.8em;
+	line-height: 1.4em;
+	border-left: 10px solid #ededed;
+	margin-left: 5px;
+}
+
+.article_details a{
+	color: #000;
+}
+
 
 .content {
 	padding-left: 20px;

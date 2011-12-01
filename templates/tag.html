@@ -1,0 +1,33 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+{% block meta_title %}FCPE 63 - Thématique : {{tag}}{% endblock %}
+
+{% block document %}
+        <div class="grid_8 content_wrapper">
+            <div class="content">
+        {% block content %}
+        {% block title %}<h2>Thématique : {{tag}}</h2>{% endblock %}
+        
+            <br/>
+            <h3>Articles portant sur ce thème</h3>
+            {% include 'coop_cms/article_list.html' %}
+            
+            
+                 
+        {% endblock content %}
+            </div>
+        </div>
+        
+        <div class="grid_4 colonne_wrapper">
+        {% block colonne %}
+            {% include "colonne.html" %}
+        {% endblock colonne %}
+        </div>
+
+    {% endblock document %}
+
+    
+
+   
+    
