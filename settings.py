@@ -26,7 +26,7 @@ DATABASES = {
     }
 }
 
-#USE_L10N = True
+USE_L10N = True
 TIME_ZONE = 'Europe/Paris'
 LANGUAGE_CODE = 'fr-FR'
 SITE_ID = 1
