@@ -45,6 +45,11 @@ body {
 	font-family: Ubuntu,"Lucida Grande", Lucida, Verdana, sans-serif;
 }
 
+a{
+		color: #385fb7;
+
+}
+
 .blanc {
 	background-color: white;
 }
@@ -61,9 +66,14 @@ body {
 }
 
 .blogrss a{
+	
 	text-align: center;
 	text-decoration: none;
 	font: 12px/16px Ubuntu,"Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+.blogrss a:visited{
+	color: #859be9;
 }
 
 .blogrss p{
@@ -71,6 +81,23 @@ body {
 	padding-top: 5px;
 	border-top: 1px solid #adadad;
 }
+
+#tags ul{
+	margin-top: 15px;
+	margin-bottom: 7px;
+}
+
+#tags li{
+	padding-right: 20px;
+	display: inline-block;
+}
+
+#tags a {
+	font: bold 16px Ubuntu,"Lucida Grande", Lucida, Verdana, sans-serif;
+	text-decoration: none;
+}
+
+
 
 /* @group Bandeau */
 

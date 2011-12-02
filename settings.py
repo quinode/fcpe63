@@ -26,12 +26,12 @@ DATABASES = {
     }
 }
 
-
+#USE_L10N = True
 TIME_ZONE = 'Europe/Paris'
 LANGUAGE_CODE = 'fr-FR'
 SITE_ID = 1
 USE_I18N = True
-USE_L10N = True
+
 
 import locale
 locale.setlocale(locale.LC_ALL,'')
