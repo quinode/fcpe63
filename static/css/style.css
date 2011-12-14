@@ -290,6 +290,8 @@ ul.last_articles > li > p{
 
 #contact #id_message{
 	height: 200px;
+	padding: 7px;
+	font: 0.8em Arial;
 }
         .error, .errorlist li {
             color: red;

@@ -24,6 +24,7 @@ urlpatterns = patterns('',
     
 urlpatterns += staticfiles_urlpatterns()
 
+import sys
 from django.conf import settings
 if settings.DEBUG or ('test' in sys.argv):
     urlpatterns += patterns('',
