@@ -120,8 +120,12 @@ INSTALLED_APPS = (
     'djaloha',
     'communes',
     'fcpe',
+    'form_designer',
 
 )
+
+JQUERY_JS = 'static/js/jquery-1.7.min.js'
+
 
 LIVESETTINGS_OPTIONS = \
 {

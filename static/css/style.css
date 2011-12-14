@@ -252,3 +252,75 @@ ul.last_articles > li > p{
 	margin-bottom: 10px;
 	padding: 10px;
 }
+
+/* @group forms */
+
+#contact{
+	margin-top: 30px;
+	border: 1px solid #d2d2d2;
+	padding: 20px 10px;
+}
+
+#contact table{
+	border-collapse: collapse;
+	width: 600px;
+}
+
+
+#contact td, #contact th{
+	border-style: none;
+	border-width: 0;
+	padding: 8px;
+}
+
+#contact input[type=text]{
+	font-size: 14px;
+	width: 300px;
+}
+
+#contact input[type=submit]{
+	font-size: 17px;
+	font-weight: bold;
+	width: 100px;
+	height: 30px;
+	border: 1px solid #ababab;
+	background-color: #86CB4A;
+	color: white;
+}
+
+#contact #id_message{
+	height: 200px;
+}
+        .error, .errorlist li {
+            color: red;
+        }
+    
+        .success {
+            color: green;
+        }
+
+        td, th {
+            border: 1px gray solid;
+            vertical-align: top;
+        }
+
+        label {
+            color: gray;
+        }
+    
+        p label {
+            display: inline-block;
+            min-width: 5em;
+        }
+    
+        .required label {
+            font-weight: bold;
+        }
+
+        .required label:after {
+            content: "*";
+        }
+  
+
+/* @end */
+

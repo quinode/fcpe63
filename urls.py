@@ -16,10 +16,12 @@ urlpatterns = patterns('',
 #    url('^autocomplete/', include(autocomplete.urls)),
 #    url(r'^fcpe/', include('fcpe.urls')),
     (r'^settings/', include('livesettings.urls')),
+    (r'^formulaire/', include('form_designer.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^taggit_autocomplete_modified/', include('taggit_autocomplete_modified.urls')),)
 
+    
 urlpatterns += staticfiles_urlpatterns()
 
 from django.conf import settings
