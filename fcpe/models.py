@@ -27,7 +27,7 @@ class ConseilLocal(geomodels.Model):
     
     location = geomodels.PointField(verbose_name="localisation", blank=True, null=True,srid=4326)
     
-    objects = models.GeoManager()
+    objects = geomodels.GeoManager()
     
     def code_postal(self):
         return self.commune.code_postal
