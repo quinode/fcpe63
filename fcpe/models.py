@@ -4,6 +4,8 @@ from communes.models import Commune
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from django.contrib.gis.db import geomodels
+
 class AnneeScolaire(models.Model):
     libelle = models.CharField(blank=True, max_length=100)
     def __unicode__(self):
@@ -12,7 +14,7 @@ class AnneeScolaire(models.Model):
         verbose_name = "Année scolaire"
         verbose_name_plural = "Années scolaires"
 
-class ConseilLocal(models.Model):
+class ConseilLocal(geomodels.Model):
     nom = models.CharField(blank=True, max_length=100)
     code = models.CharField(blank=True, max_length=9,unique=True)
     adr1 = models.CharField(blank=True, max_length=100)
@@ -22,6 +24,11 @@ class ConseilLocal(models.Model):
     _ville = models.CharField(blank=True, max_length=100, editable=False)
     primaire = models.BooleanField(default=False)
     secondaire = models.BooleanField(default=False)
+    
+    location = geomodels.PointField(verbose_name=_(u"localisation"), blank=True, null=True,srid=4326)
+    
+    objects = models.GeoManager()
+    
     def code_postal(self):
         return self.commune.code_postal
     def nb_adherents(self):
