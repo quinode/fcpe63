@@ -4,7 +4,7 @@ from communes.models import Commune
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from django.contrib.gis.db import geomodels
+from django.contrib.gis.db import models as geomodels
 
 class AnneeScolaire(models.Model):
     libelle = models.CharField(blank=True, max_length=100)
