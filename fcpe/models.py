@@ -25,7 +25,7 @@ class ConseilLocal(geomodels.Model):
     primaire = models.BooleanField(default=False)
     secondaire = models.BooleanField(default=False)
     
-    location = geomodels.PointField(verbose_name=_(u"localisation"), blank=True, null=True,srid=4326)
+    location = geomodels.PointField(verbose_name="localisation", blank=True, null=True,srid=4326)
     
     objects = models.GeoManager()
     
