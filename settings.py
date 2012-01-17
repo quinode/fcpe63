@@ -53,10 +53,6 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = (
     os.path.join(DIRNAME,'static/'),
-    #os.path.join(DIRNAME,'static/admin/'),
-    #os.path.join(DIRNAME,'djaloha/static/'),
-    #os.path.join(DIRNAME,'coop_cms/static/'),
-    #os.path.join(DIRNAME,'/rss_sync/static/'),
     #os.path.abspath(ADMIN_TOOLS_PATH,'/media/'),
 )
 
@@ -133,8 +129,7 @@ DJALOHA_LINK_MODELS = ('fcpe.Article','fcpe.ConseilLocal')
 COOP_CMS_ARTICLE_CLASS = 'fcpe.models.Article'
 #COOP_CMS_ARTICLE_FORM = 'coop_local.forms.ArticleForm'
 #COOP_CMS_ARTICLE_TEMPLATES = 'coop_local.get_article_templates'
-COOP_CMS_ARTICLE_LOGO_SIZE = '600'
-
+COOP_CMS_ARTICLE_LOGO_SIZE = '50x50'
 
 
 LIVESETTINGS_OPTIONS = \

@@ -1,4 +1,4 @@
-{% load i18n static coop_navigation %}
+{% load i18n static coop_bar_tags coop_navigation %}
 <html>
 <head>
     {% block extra-head %}{% endblock %}
@@ -16,12 +16,16 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" />
     {% endblock %}
     
-    {% block extra_head %}{% endblock %}
-
     {% block jquery_declaration %}
     {% endblock %}
+    {% coop_bar_headers %}
+    {% block extra_head %}{% endblock %}
+
+
 </head>
 <body>
+    {% coop_bar %}
+    
 <div id="entete" class="container_12 blanc">
     <div id="bandeau">
     <h1>Fédération des Conseils de Parents d’Élèves<br/>
