@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404,redirect
 from django.contrib.auth.models import User
 
 from taggit.models import Tag
-from coop_cms.models import Article
+from fcpe.models import Article
 
 def home(request):
     rdict ={}
