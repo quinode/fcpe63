@@ -13,7 +13,6 @@
     {% block stylesheet %}
         <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/960.css" type="text/css" />
-        <link href="{{STATIC_URL}}css/admin_bar.css" type="text/css" rel="stylesheet" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" />
     {% endblock %}
     
@@ -80,7 +79,8 @@
     </div>
 
 </div>
-{% include "coop_cms/_admin_bar.html" %}
+
+
 {% block page-close %}
 
 {% endblock %}
