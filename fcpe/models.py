@@ -173,15 +173,22 @@ class Engagement(models.Model):
         ordering = ['role']
     def __unicode__(self):
         return self.role.__unicode__() + u' du Conseil local '+self.conseil_local.__unicode__()
-        
-
+      
 #from taggit.managers import TaggableManager
-from taggit_autocomplete_modified.managers \
-    import TaggableManagerAutocomplete as TaggableManager
-from coop_cms.models import Article
-if not hasattr(Article, "tags"):
-    t = TaggableManager(blank=True)
-    t.contribute_to_class(Article, "tags")
+from taggit_autocomplete_modified.managers import TaggableManagerAutocomplete as TaggableManager
+from coop_cms.models import BaseArticle
+from django.contrib.auth.models import User
+
+class Article(BaseArticle):
+    author = models.ForeignKey(User, blank=True, default=None, null=True)
+    #tags = TaggableManager(blank=True)
+    
+    def can_publish_article(self, user):
+        return (self.author == user)
+        
+    #def can_edit_article(self, user):
+    #    return True
+    #
 
 from django.contrib.admin.filterspecs import FilterSpec, RelatedFilterSpec
 from django.contrib.admin.util import get_model_from_relation

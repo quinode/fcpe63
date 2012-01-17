@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'taggit_templatetags',
     'coop_cms',
     'djaloha',
+    'coop-bar',
     'communes',
     'fcpe',
     'form_designer',
