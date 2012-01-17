@@ -44,9 +44,8 @@ AUTH_PROFILE_MODULE = 'fcpe.adherent'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
-
-MEDIA_ROOT = os.path.join(DIRNAME,'static/uploads/')
-MEDIA_URL = '/static/uploads/'
+MEDIA_ROOT = os.path.join(DIRNAME,'media/')
+MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(DIRNAME,'static_collected/')
 STATIC_URL = '/static/'
