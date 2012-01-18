@@ -123,9 +123,8 @@ INSTALLED_APPS = (
 
 JQUERY_JS = 'static/js/jquery-1.7.min.js'
 
-DJALOHA_LINK_MODELS = ('fcpe.Article',)
 
-DJALOHA_LINK_MODELS = ('fcpe.Article','fcpe.ConseilLocal')
+DJALOHA_LINK_MODELS = ('fcpe.Article',)
 COOP_CMS_ARTICLE_CLASS = 'fcpe.models.Article'
 #COOP_CMS_ARTICLE_FORM = 'coop_local.forms.ArticleForm'
 #COOP_CMS_ARTICLE_TEMPLATES = 'coop_local.get_article_templates'
