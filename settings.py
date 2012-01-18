@@ -137,7 +137,7 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
 )
  
 AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
-    'coop_cms.perms_backends.ArticlePermissionBackend'
+    'coop_cms.perms_backends.ArticlePermissionBackend',
 )
 
 
