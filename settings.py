@@ -135,10 +135,11 @@ COOP_CMS_ARTICLE_LOGO_SIZE = '50x50'
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
    'django.core.context_processors.request',
 )
- 
+
 AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
+    'utils.email_auth.EmailBackend',
     'coop_cms.perms_backends.ArticlePermissionBackend',
-)
+ )
 
 
 
@@ -163,9 +164,6 @@ LIVESETTINGS_OPTIONS = \
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
-    'utils.email_auth.EmailBackend',
- )
 
 CACHE_MIDDLEWARE_KEY_PREFIX = DIRNAME
 CACHES = {
