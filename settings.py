@@ -171,8 +171,6 @@ CACHES = {
     }
 }
 
-DJALOHA_LINK_MODELS = ('coop_cms.Article',)
-
 LIVESETTINGS_OPTIONS = \
 {
     1: {
