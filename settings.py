@@ -131,6 +131,15 @@ COOP_CMS_ARTICLE_CLASS = 'fcpe.models.Article'
 #COOP_CMS_ARTICLE_TEMPLATES = 'coop_local.get_article_templates'
 COOP_CMS_ARTICLE_LOGO_SIZE = '50x50'
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+   "django.contrib.auth.context_processors.auth",
+   "django.core.context_processors.debug",
+   "django.core.context_processors.i18n",
+   'django.core.context_processors.request',
+   "django.core.context_processors.media",
+   "django.core.context_processors.static",
+   "django.contrib.messages.context_processors.messages",
+)
 
 LIVESETTINGS_OPTIONS = \
 {
