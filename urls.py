@@ -19,8 +19,11 @@ urlpatterns = patterns('',
     (r'^formulaire/', include('form_designer.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^taggit_autocomplete_modified/', include('taggit_autocomplete_modified.urls')),)
+    url(r'^taggit_autocomplete_modified/', include('taggit_autocomplete_modified.urls')),
 
+    (r'^accounts/', include('django.contrib.auth.urls')),
+    
+    )
     
 urlpatterns += staticfiles_urlpatterns()
 
