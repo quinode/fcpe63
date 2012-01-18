@@ -186,6 +186,12 @@ class Article(BaseArticle):
     def can_publish_article(self, user):
         return (self.author == user)
         
+    def can_view_article(self, user):
+        if self.publication != BaseArticle.PUBLISHED:
+            return self.can_edit_article(user)
+        else:
+            return True
+        
     #def can_edit_article(self, user):
     #    return True
     #
