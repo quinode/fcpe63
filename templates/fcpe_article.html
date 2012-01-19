@@ -1,0 +1,38 @@
+{% extends "coop_cms/article.html" %}
+{% load i18n coop_edition %}
+
+{% block document %}
+<div class="grid_8 content_wrapper">
+    <div class="content">
+    {% block content %}
+    
+        {% block article %}
+        {% article %}
+            {% spaceless %}
+                {% block title %}<h2 id="title">{{article.title|safe}}</h2>{% endblock %}
+                {% comment %} {% if article.logo %}
+                    <span class="the-logo">{{ article.logo }}</span>
+                {% endif %} {% endcomment %}
+                {{article.content|safe}}
+            {% endspaceless %}
+        {% endarticle %}
+        {% endblock article %}
+        
+        {% if article.slug == 'accueil' %}
+            <br/>
+            <h3>Derniers articles</h3>
+            {% include 'coop_cms/article_list.html' %}
+        {% endif %}
+        
+    {% endblock content %}
+    
+    </div>
+    </div>
+    
+    <div class="grid_4 colonne_wrapper">
+    {% block colonne %}
+        {% include "colonne.html" %}
+    {% endblock colonne %}
+    </div>
+
+{% endblock %}

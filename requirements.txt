@@ -13,3 +13,4 @@ django-taggit==0.9.3
 django-taggit-autocomplete-modified==0.1.0b4
 django-taggit-templatetags==0.4.6dev
 django-picklefield==0.1.9
+feedparser==5.0.1
