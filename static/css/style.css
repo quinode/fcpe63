@@ -66,10 +66,9 @@ a{
 }
 
 .blogrss a{
-	
-	text-align: center;
 	text-decoration: none;
 	font: 12px/16px Ubuntu,"Lucida Grande", Lucida, Verdana, sans-serif;
+	text-align: center;
 }
 
 .blogrss a:visited{
@@ -77,9 +76,13 @@ a{
 }
 
 .blogrss p{
+	
 	margin-top: 5px;
 	padding-top: 5px;
 	border-top: 1px solid #adadad;
+	text-align: left;
+	background: url(/static/fugue/newspaper.png) no-repeat 0 6px;
+	padding-left: 23px;
 }
 
 .tags ul{
