@@ -13,8 +13,8 @@
 
             <div class="widget" id="tags">
                 <h4>Thématiques</h4>
-                <ul>
-                {% get_taglist as tags for 'coop_cms.article' %}
+                <ul class="tags">
+                {% get_taglist as tags for 'fcpe.article' %}
                 {% for tag in tags %}
                     <li>
                         <a href="/tag/{{tag.slug}}/">{{tag}} ({{tag.num_times}})</a></li>

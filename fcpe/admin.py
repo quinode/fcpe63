@@ -6,6 +6,8 @@ from fcpe.models import *
 from django_mailman.models import List
 
 from fcpe.autocomplete_admin import FkAutocompleteAdmin,InlineAutocompleteAdmin
+from django.utils.translation import ugettext_lazy as _
+
 
 #from autocomplete.views import autocomplete, AutocompleteSettings
 #from autocomplete.admin import AutocompleteAdmin
@@ -245,20 +247,20 @@ admin.site.register(Classe)
 admin.site.register(Role)
 admin.site.register(AnneeScolaire)
 
-# from fcpe.models import Article
-# from coop_cms.admin import ArticleAdmin
-# from django.utils.translation import ugettext_lazy as _
-# 
-# admin.site.unregister(Article)
-# 
-# class ArticleFCPE(ArticleAdmin):
-#     list_filter = ('tags',)
-#     fieldsets = (
-#         ('Arborescence', {'fields': ('navigation_parent',)}),
-#         ('Contenu', {'fields': ('title', 'content')}),
-#         ('Thématiques',{'fields': ('tags',)}),
-#         (_('Publication'), {'fields': ('publication', 'created', 'modified')}),
-#     )
-# admin.site.register(Article, ArticleFCPE)
-# 
+
+
+from coop_cms.admin import ArticleAdmin
+from coop_cms.settings import get_article_class
+
+
+class ArticleFCPE(ArticleAdmin):
+    list_filter = ('tags',)
+    fieldsets = (
+        ('Arborescence', {'fields': ('navigation_parent',)}),
+        ('Contenu', {'fields': ('title', 'content','tags','publication','logo')}),
+    )
+
+
+admin.site.unregister(get_article_class())
+admin.site.register(get_article_class(), ArticleFCPE)
 

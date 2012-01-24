@@ -3,6 +3,7 @@ from django.db import models
 from communes.models import Commune
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.gis.db import models as geomodels
 
@@ -181,7 +182,9 @@ from django.contrib.auth.models import User
 
 class Article(BaseArticle):
     author = models.ForeignKey(User, blank=True, default=None, null=True)
-    #tags = TaggableManager(blank=True)
+    #template = models.CharField(_(u'template'), max_length=200, blank=True, default='fcpe_article.html')
+    
+    tags = TaggableManager(blank=True)
     
     def can_publish_article(self, user):
         return (self.author == user)
@@ -195,6 +198,9 @@ class Article(BaseArticle):
     #def can_edit_article(self, user):
     #    return True
     #
+
+Article._meta.get_field('template').default = 'fcpe_article.html'
+
 
 from django.contrib.admin.filterspecs import FilterSpec, RelatedFilterSpec
 from django.contrib.admin.util import get_model_from_relation

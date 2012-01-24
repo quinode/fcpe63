@@ -82,20 +82,51 @@ a{
 	border-top: 1px solid #adadad;
 }
 
-#tags ul{
+.tags ul{
 	margin-top: 15px;
 	margin-bottom: 7px;
+	list-style-type: none;
 }
 
-#tags li{
-	padding-right: 20px;
+.tags li{
+	padding-right: 4px;
 	display: inline-block;
+	padding-bottom: 1px;
 }
 
-#tags a {
-	font: bold 16px Ubuntu,"Lucida Grande", Lucida, Verdana, sans-serif;
+.tags a {
+	font: 12px Ubuntu,"Lucida Grande", Lucida, Verdana, sans-serif;
 	text-decoration: none;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }
+
+.tags a{
+	display: inline-block;
+	border: 1px solid #cececf;
+	background-color: #cbe5ec;
+	margin-top: 4px;
+	padding: 5px 9px 3px;
+	text-decoration: none;
+	color: #4f4f4f;
+}
+
+.tags a:hover{
+	
+	background: #FDFCF7;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FDFCF7), to(#F0DA2D));
+background: -webkit-linear-gradient(#FDFCF7, #F0DA2D);
+background: -moz-linear-gradient(#FDFCF7, #F0DA2D);
+background: -ms-linear-gradient(#FDFCF7, #F0DA2D);
+background: -o-linear-gradient(#FDFCF7, #F0DA2D);
+background: linear-gradient(#FDFCF7, #F0DA2D);
+	border-color: #ffad4a;
+	color: black;
+	
+}
+
+
 
 
 
@@ -190,7 +221,7 @@ h3{
 	font: bold 23px Museo500, "Trebuchet MS", Trebuchet, Tahoma, Arial;
 	background-color: #ebf3f1;
 	padding: 5px 5px 5px 20px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 h4 {
@@ -211,13 +242,32 @@ h4 a {
 	margin-bottom: 15px;
 }
 
+ul.last_articles > li{
+	padding-bottom: 20px;
+	border-top-style: none;
+	border-bottom: 1px dashed #a5a6a6;
+	margin-bottom: 15px;
+}
+
 ul.last_articles > li > p{
-	padding-left: 10px;
 	font-size: 0.8em;
 	line-height: 1.4em;
 	border-left: 10px solid #ededed;
-	margin-left: 5px;
+	margin-left: 65px;
+	padding-left: 10px;
+	position: relative;
 }
+
+img.article-list-icon{
+	position: absolute;
+	top: 0;
+	left: -75px;
+}
+
+span.date{
+	font-size: 11px;
+}
+
 
 .article_details a{
 	color: #000;
@@ -253,6 +303,13 @@ ul.last_articles > li > p{
 	margin-bottom: 10px;
 	padding: 10px;
 }
+
+img.article-logo{
+	float: left;
+	padding-right: 20px;
+	padding-bottom: 5px;
+}
+
 
 /* @group forms */
 
