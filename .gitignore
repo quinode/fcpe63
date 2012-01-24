@@ -2,13 +2,14 @@
 ##############
 *.pyc
 *.tmproj
-#*.json
+*.json
 @@*
 
 # Directories #
 ###############
 logs
 static_collected
+media
 
 # Specific files #
 ##################

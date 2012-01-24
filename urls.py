@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^taggit_autocomplete_modified/', include('taggit_autocomplete_modified.urls')),
 
     (r'^accounts/', include('django.contrib.auth.urls')),
+    (r'^djaloha/', include('djaloha.urls')),
     
     )
     
