@@ -127,7 +127,7 @@ JQUERY_JS = 'static/js/jquery-1.7.min.js'
 DJALOHA_LINK_MODELS = ('fcpe.Article',)
 COOP_CMS_ARTICLE_CLASS = 'fcpe.models.Article'
 #COOP_CMS_ARTICLE_FORM = 'coop_local.forms.ArticleForm'
-COOP_CMS_ARTICLE_TEMPLATES = (('fcpe_article.html','Article'))
+COOP_CMS_ARTICLE_TEMPLATES = (('fcpe_article.html','Article'),('fcpe_home.html','Page d’accueil'))
 COOP_CMS_ARTICLE_LOGO_SIZE = '200'
 COOPBAR_MODULES = ('fcpe63.cms_coop_bar',)
 

@@ -252,15 +252,12 @@ admin.site.register(AnneeScolaire)
 from coop_cms.admin import ArticleAdmin
 from coop_cms.settings import get_article_class
 
-
 class ArticleFCPE(ArticleAdmin):
     list_filter = ('tags',)
     fieldsets = (
         ('Arborescence', {'fields': ('navigation_parent',)}),
-        ('Contenu', {'fields': ('title', 'content','tags','publication','logo')}),
+        ('Contenu', {'fields': ('title', 'content','tags',('publication','template'),'logo')}),
     )
-
-
 admin.site.unregister(get_article_class())
 admin.site.register(get_article_class(), ArticleFCPE)
 
