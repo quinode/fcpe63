@@ -14,3 +14,7 @@ django-taggit-autocomplete-modified==0.1.0b4
 django-taggit-templatetags==0.4.6dev
 django-picklefield==0.1.9
 feedparser==5.0.1
+BeautifulSoup==3.2.0
+httplib2==0.7.2
+simplejson==2.3.2
+djangoembed==0.1.1

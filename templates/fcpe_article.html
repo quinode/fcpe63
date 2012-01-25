@@ -1,5 +1,5 @@
 {% extends "coop_cms/article.html" %}
-{% load i18n coop_edition %}
+{% load i18n coop_edition oembed_tags %}
 
 {% block document %}
 <div class="grid_8 content_wrapper">
@@ -13,7 +13,7 @@
                 {% if article.logo %}
                     <span class="the-logo" style="align:right;padding-right:20px">{{ article.logo }}</span>
                 {% endif %}
-                {{article.content|safe}}
+                {{article.content|oembed|safe}}
             {% endspaceless %}
         {% endarticle %}
         {% endblock article %}

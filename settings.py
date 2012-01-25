@@ -102,6 +102,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.gis',
     'south',
+    'oembed',
 #    'adminbrowse',
     'django_mailman',
     
