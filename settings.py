@@ -80,6 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'pagination.middleware.PaginationMiddleware',
 )
 
 ROOT_URLCONF = 'fcpe63.urls'
@@ -115,10 +116,12 @@ INSTALLED_APPS = (
     'taggit_templatetags',
     'coop_cms',
     'djaloha',
+    'colorbox',
     'coop_bar',
     'communes',
     'fcpe',
     'form_designer',
+    'pagination',
 
 )
 
@@ -130,8 +133,11 @@ COOP_CMS_ARTICLE_CLASS = 'fcpe.models.Article'
 #COOP_CMS_ARTICLE_FORM = 'coop_local.forms.ArticleForm'
 COOP_CMS_ARTICLE_TEMPLATES = (('fcpe_article.html','Article'),('fcpe_home.html','Page d’accueil'))
 COOP_CMS_ARTICLE_LOGO_SIZE = '200'
-COOPBAR_MODULES = ('fcpe63.cms_coop_bar',)
-
+#COOPBAR_MODULES = ('fcpe63.cms_coop_bar',)
+COOP_CMS_NEWSLETTER_TEMPLATES = (('fcpe_newsletter.html', 'Lettre mensuelle'),)
+COOP_CMS_FROM_EMAIL = '"FCPE 63" <contact@fcpe63.fr>'
+COOP_CMS_TEST_EMAILS = ('"Dom" <contact@quinode.fr>',)
+COOP_CMS_SITE_PREFIX = 'http://127.0.0.1:8000'
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
    'django.core.context_processors.request',

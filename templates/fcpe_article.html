@@ -7,7 +7,7 @@
     {% block content %}
     
         {% block article %}
-        {% article logo_size=200 %}
+        {% cms_edit article logo_size=200 %}
             {% spaceless %}
                 {% block title %}<h2 id="title">{{article.title|safe}}</h2>{% endblock %}
                 {% if article.logo %}
@@ -15,7 +15,7 @@
                 {% endif %}
                 {{article.content|oembed|safe}}
             {% endspaceless %}
-        {% endarticle %}
+        {% end_cms_edit %}
         {% endblock article %}
         
         {% if article.slug == 'accueil' %}
