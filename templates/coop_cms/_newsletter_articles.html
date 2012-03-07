@@ -1,9 +1,14 @@
-{% load i18n %}
+{% load i18n thumbnail %}
 {% for item in newsletter.get_items %}
     <div class="newsletter-item">
-        <img src="{{MEDIA_URL}}{{item.logo_thumbnail}}"/>
+        
+        {% thumbnail item.logo "80x80" as im %}
+            <img class="article-list-icon" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
+            
+        
         <div class="item-content">
-            <h3>!!{{item.title}}</h3>
+            <h4>{{item.title}}</h4>
             <div class="summary">
                 {{item.summary}}
                 <a class="read-more" href="{{item.get_absolute_url}}">{% trans "Read more"%}</a>

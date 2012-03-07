@@ -9,6 +9,7 @@
     <title>{% block meta_title %}{% endblock %} | FCPE 63</title>
         
     <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}js/jquery-1.7.min.js"></script>        
+    <script type="text/javascript" src="{{ STATIC_URL }}js/humanmsg.js"></script>
     
     {% block stylesheet %}
         <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css" />
@@ -87,6 +88,10 @@
 
 
 {% block page-close %}
+
+
+    {% include "coop_cms/_messages.html" %}
+
 
 {% endblock %}
 
