@@ -15,17 +15,6 @@ MANAGERS = ADMINS
 TIME_ZONE = "Europe/Paris"
 LANGUAGE_CODE = 'fr-FR'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'fcpe',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-
 USE_L10N = True
 TIME_ZONE = 'Europe/Paris'
 LANGUAGE_CODE = 'fr'
@@ -130,7 +119,6 @@ JQUERY_JS = 'static/js/jquery-1.7.min.js'
 
 DJALOHA_LINK_MODELS = ('fcpe.Article',)
 COOP_CMS_ARTICLE_CLASS = 'fcpe.models.Article'
-#COOP_CMS_ARTICLE_FORM = 'coop_local.forms.ArticleForm'
 COOP_CMS_ARTICLE_TEMPLATES = (('fcpe_article.html','Article'),('fcpe_home.html','Page d’accueil'))
 COOP_CMS_ARTICLE_LOGO_SIZE = '200'
 #COOPBAR_MODULES = ('fcpe63.cms_coop_bar',)
