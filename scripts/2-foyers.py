@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.ERROR)
 # foyers_exi = {}
 depts = ('63', '43', '15', '03', '42', '39')
 
-rows = csv.reader(open('2012/foyers.csv', 'rb'), delimiter=';')
+rows = csv.reader(open('2012-fin/foyers.csv', 'rb'), delimiter=';')
 
 from fcpe.models import Commune, AnneeScolaire, Foyer
 

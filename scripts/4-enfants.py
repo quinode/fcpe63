@@ -7,7 +7,7 @@ import pdb
 logging.basicConfig(level=logging.ERROR)
 from fcpe.models import Enfant, Classe, Foyer, Etablissement
 
-rows = csv.reader(open('2012/enfants.csv', 'rb'), delimiter=';')
+rows = csv.reader(open('2012-fin/enfants.csv', 'rb'), delimiter=';')
 
 
 def verify_enfant(row):

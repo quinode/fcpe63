@@ -10,7 +10,7 @@ from fcpe.models import ConseilLocal, Foyer, \
 
 membre = Role.objects.get(id=8)
 
-rows = csv.reader(open('2012/adherents.csv', 'rb'), delimiter=';')
+rows = csv.reader(open('2012-fin/adherents.csv', 'rb'), delimiter=';')
 
 
 def verify_person(row):

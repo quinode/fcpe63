@@ -8,7 +8,7 @@ from fcpe.models import Etablissement, ConseilLocal, Foyer, \
                 Adherent, Personne, Engagement, Role
 
 #verification
-rows = csv.reader(open('2012/etablissements.csv', 'rb'), delimiter=';')
+rows = csv.reader(open('2012-fin/etablissements.csv', 'rb'), delimiter=';')
 for row in rows:
     try:
         c = Etablissement.objects.get(id=row[0])
@@ -17,7 +17,7 @@ for row in rows:
 
 
 # preparation
-rows = csv.reader(open('2012/conseils.csv', 'rb'), delimiter=';')
+rows = csv.reader(open('2012-fin/conseils.csv', 'rb'), delimiter=';')
 for row in rows:
     try:
         c = ConseilLocal.objects.get(nom=row[0])
