@@ -1,4 +1,4 @@
-{% extends 'coop_cms/newsletter.html' %}
+{% extends "coop_cms/newsletter.html" %}
 {% load i18n coop_edition coop_bar_tags %}
 
 {% block emain_only_style %}
@@ -102,9 +102,9 @@ div#content{
 
 <table border="0" cellpadding="20">
     <tr><td width="120" valign="top" class="marge">
-        
+
         <img src="http://www.fcpe63.fr/static/img/logo80.png" alt="logo FCPE"/>
-        
+
         <p id="news_author">
         Fédération des Conseils<br/>
         de Parents d’Elèves<br/>
@@ -120,13 +120,13 @@ div#content{
             <a href="mailto:contact@fcpe63.fr">contact@fcpe63.fr</a><br/>
             <a href="http://www.fcpe63.fr">www.fcpe63.fr</a>
         </p>
-        
+
     </td>
-    <td>    
+    <td>
     {% cms_edit newsletter %}
         {% block title %}<h2 id="title">{{newsletter.subject|safe}}</h2>{% endblock %}
         <div id="content">{{ newsletter.content }}</div>
-        
+
         {% include "coop_cms/_newsletter_articles.html" %}
     {% end_cms_edit %}
     </td>

@@ -29,11 +29,11 @@ class ConseilLocal(geomodels.Model):
     _ville = models.CharField(blank=True, max_length=100, editable=False)
     primaire = models.BooleanField(default=False)
     secondaire = models.BooleanField(default=False)
-    
+
     location = geomodels.PointField(verbose_name="localisation", blank=True, null=True, srid=4326)
-    
+
     objects = geomodels.GeoManager()
-    
+
     def code_postal(self):
         return self.commune.code_postal
 
@@ -46,7 +46,7 @@ class ConseilLocal(geomodels.Model):
     class Meta:
         verbose_name = "Conseil Local"
         verbose_name_plural = "Conseil Locaux"
-    
+
 
 class Etablissement(models.Model):
     nom = models.CharField(blank=True, max_length=100)
@@ -118,13 +118,13 @@ class Foyer(models.Model):
         if not self.code_foyer:
             return u'Foyer %s (code foyer FCPE manquant, à renseigner!)' % self.pk
         else:
-            return u'Foyer FCPE ' + self.code_foyer    
+            return u'Foyer FCPE ' + self.code_foyer
 
     def nb_enfants(self):
         return self.famille.count()
 
     def nom_adherent1(self):
-        return self.rattachement.all()[0]    
+        return self.rattachement.all()[0]
 
 
 class Adherent(Personne):
@@ -201,7 +201,7 @@ class Engagement(models.Model):
 
     def __unicode__(self):
         return self.role.__unicode__() + u' du Conseil local ' + self.conseil_local.__unicode__()
-      
+
 #from taggit.managers import TaggableManager
 from taggit_autocomplete_modified.managers import TaggableManagerAutocomplete as TaggableManager
 from coop_cms.models import BaseArticle
@@ -211,18 +211,18 @@ from django.contrib.auth.models import User
 class Article(BaseArticle):
     author = models.ForeignKey(User, blank=True, default=None, null=True)
     #template = models.CharField(_(u'template'), max_length=200, blank=True, default='fcpe_article.html')
-    
+
     tags = TaggableManager(blank=True)
-    
+
     def can_publish_article(self, user):
         return (self.author == user)
-        
+
     def can_view_article(self, user):
         if self.publication != BaseArticle.PUBLISHED:
             return self.can_edit_article(user)
         else:
             return True
-        
+
     #def can_edit_article(self, user):
     #    return True
     #
@@ -270,7 +270,7 @@ class TaggitFilterSpec(RelatedFilterSpec):
         queryset = getattr(f.model, f.name).all()
         queryset = queryset.annotate(num_times=Count(count_field))
         queryset = queryset.order_by("-num_times")
-        self.lookup_choices = [(t.pk, "%s (%s)" % (t.name, t.num_times)) 
+        self.lookup_choices = [(t.pk, "%s (%s)" % (t.name, t.num_times))
                 for t in queryset]
 
 

@@ -4,6 +4,7 @@
 *.tmproj
 *.json
 @@*
+*.csv
 
 # Directories #
 ###############

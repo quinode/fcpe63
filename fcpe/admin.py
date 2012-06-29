@@ -188,11 +188,11 @@ class PersonneAdmin(admin.ModelAdmin):
                 if form.cleaned_data['email'] == '':
                     raise forms.ValidationError("Pour inscrire une personne sur une liste, l'e-mail doit etre valide.")
                 if liste not in prev :
-                    print "inscription de %s (%s %s) sur %s" % (form.cleaned_data['email'],to_ascii(form.cleaned_data['prenom']), to_ascii(form.cleaned_data['nom']), liste.name)          
-                    liste.subscribe(    form.cleaned_data['email'], 
-                                        to_ascii(form.cleaned_data['prenom']), 
-                                        to_ascii(form.cleaned_data['nom']))    
-        super(PersonneAdmin, self).save_model(request, obj, form, change) 
+                    print "inscription de %s (%s %s) sur %s" % (form.cleaned_data['email'],to_ascii(form.cleaned_data['prenom']), to_ascii(form.cleaned_data['nom']), liste.name)
+                    liste.subscribe(    form.cleaned_data['email'],
+                                        to_ascii(form.cleaned_data['prenom']),
+                                        to_ascii(form.cleaned_data['nom']))
+        super(PersonneAdmin, self).save_model(request, obj, form, change)
 admin.site.register(Personne,PersonneAdmin)
 
 
@@ -214,7 +214,7 @@ class AdherentAdmin(PersonneAdmin,ModelLinkAdminFields, FkAutocompleteAdmin):
             'classes': ('collapse',),
             'fields': ('partenaire','organisation', 'role', )
         }),
-        
+
     )
     def save_model(self, request, obj, form, change):
         #prev = obj.listes.values_list('id',flat=True)
@@ -230,10 +230,10 @@ class AdherentAdmin(PersonneAdmin,ModelLinkAdminFields, FkAutocompleteAdmin):
                 if form.cleaned_data['email'] == '':
                     raise forms.ValidationError("Pour inscrire une personne sur une liste, l'e-mail doit etre valide.")
                 if liste not in prev :
-                    print "inscription de %s (%s %s) sur %s" % (form.cleaned_data['email'],to_ascii(form.cleaned_data['prenom']), to_ascii(form.cleaned_data['nom']), liste.name)          
-                    liste.subscribe(    form.cleaned_data['email'], 
-                                        to_ascii(form.cleaned_data['prenom']), 
-                                        to_ascii(form.cleaned_data['nom']))       
+                    print "inscription de %s (%s %s) sur %s" % (form.cleaned_data['email'],to_ascii(form.cleaned_data['prenom']), to_ascii(form.cleaned_data['nom']), liste.name)
+                    liste.subscribe(    form.cleaned_data['email'],
+                                        to_ascii(form.cleaned_data['prenom']),
+                                        to_ascii(form.cleaned_data['nom']))
         super(AdherentAdmin, self).save_model(request, obj, form, change)
 admin.site.register(Adherent,AdherentAdmin)
 
@@ -255,7 +255,7 @@ from coop_cms.settings import get_article_class
 class ArticleFCPE(ArticleAdmin):
     list_filter = ('tags',)
     fieldsets = (
-        ('Arborescence', {'fields': ('navigation_parent',)}),
+        #('Arborescence', {'fields': ('navigation_parent',)}),
         ('Contenu', {'fields': ('title', 'content','tags',('publication','template'),'logo')}),
     )
 admin.site.unregister(get_article_class())
