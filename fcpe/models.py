@@ -4,6 +4,7 @@ from communes.models import Commune
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse
 
 from django.contrib.gis.db import models as geomodels
 
@@ -31,7 +32,6 @@ class ConseilLocal(geomodels.Model):
     secondaire = models.BooleanField(default=False)
 
     location = geomodels.PointField(verbose_name="localisation", blank=True, null=True, srid=4326)
-
     objects = geomodels.GeoManager()
 
     def code_postal(self):
@@ -40,8 +40,19 @@ class ConseilLocal(geomodels.Model):
     def nb_adherents(self):
         return self.adhesions.count()
 
+    def responsables(self):
+        resp = []
+        membre = Role.objects.get(libelle="Membre")
+        for a in self.adhesions.all():
+            if a.role != membre:
+                resp.append(a)
+        return resp
+
     def __unicode__(self):
         return self.nom
+
+    def get_absolute_url(self):
+        return reverse('fcpe_fiche_conseil', args=[self.code])
 
     class Meta:
         verbose_name = "Conseil Local"

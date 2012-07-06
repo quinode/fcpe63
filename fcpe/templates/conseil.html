@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load i18n coop_edition %}
+
+{% block meta_title %}Conseil Local {{ conseil.nom }} à {{conseil.commune.nom}}{% endblock %}
+
+{% block stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />
+{% endblock stylesheet %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="http://leaflet.cloudmade.com/dist/leaflet.js"></script>
+{% endblock javascript %}
+
+
+{% block document %}
+<div class="grid_12 content_wrapper">
+    <div class="content">
+    {% block content %}
+
+
+    <div id="map-conseil" style="width: 300px; height: 300px"></div>
+
+    <script>
+        var map = new L.Map('map-conseil');
+        var centre = new L.LatLng({{conseil.commune.latitude}},{{conseil.commune.longitude}}); // geographical point (longitude and latitude)
+
+        var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+            cloudmadeAttribution = '&copy; 2011 CloudMade',
+            cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+
+        map.setView(centre, 10).addLayer(cloudmade);
+
+        var FcpeIcon = L.Icon.extend({
+            iconUrl: '/static/img/pin-fcpe.png',
+            shadowUrl: null,
+            iconSize: new L.Point(32, 47),
+            shadowSize: null,
+            iconAnchor: new L.Point(14, 47),
+            popupAnchor: new L.Point(2, -32)
+        });
+
+
+        var conseilsLocaux = {
+            "type": "Feature",
+            "properties": {
+                "name": "{{conseil.nom}}",
+                "popupContent": "{{conseil.nom}}"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [{{conseil.commune.longitude}},{{conseil.commune.latitude}}]
+            }
+        };
+
+        var fcpeGeojsonLayer = new L.GeoJSON(conseilsLocaux, {
+            pointToLayer: function (latlng){
+                return new L.Marker(latlng, {
+                    icon: new FcpeIcon()
+                });
+            }
+        });
+
+        fcpeGeojsonLayer.on("featureparse", function (e) {
+            popupContent = e.properties.popupContent;
+            e.layer.bindPopup(popupContent);
+        });
+
+
+        map.addLayer(fcpeGeojsonLayer);
+
+        fcpeGeojsonLayer.addGeoJSON(conseilsLocaux);
+
+
+
+    </script>
+
+    <div>
+        <h2 class="breadcrumb"><a href="/cartographie/"><< Cartographie des conseils locaux</a></h2>
+        {% block title %}<h2 id="title">Conseil Local {{ conseil.nom }}</h2>{% endblock %}
+
+
+        <h4>Adresse</h4>
+
+        <div class="cldiv adresse">
+            {% if conseil.adr1 %}{{conseil.adr1}}<br/>{% endif %}
+            {% if conseil.adr2 %}{{conseil.adr2}}<br/>{% endif %}
+            {{conseil.commune.code_postal}} {{conseil.commune.nom}}
+        </div>
+
+        <h4>Description</h4>
+        <div class="cldiv desc">
+            {% if conseil.nb_adherents > 0 %}
+            {{conseil.nb_adherents}} adhérent{{conseil.nb_adherents|pluralize}}.<br/>
+
+            <ul>
+                {% for a in conseil.responsables %}
+                    <li><b>{{ a.role.libelle }}</b> : {{a.adherent.prenom}} {{a.adherent.nom}}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+    </div>
+
+
+
+    {% endblock content %}
+
+    </div>
+</div>
+
+
+
+{% endblock %}
+

@@ -147,6 +147,11 @@ background: linear-gradient(#FDFCF7, #F0DA2D);
 	left: 40px;
 }
 
+h1 a, h1a:visited{
+	text-decoration: none;
+	color: #2a4ca0;
+}
+
 #entete h1 {
 	color: #2a4ca0;
 	position: absolute;
@@ -156,6 +161,7 @@ background: linear-gradient(#FDFCF7, #F0DA2D);
 }
 
 #entete h1 span {
+	color: #2a4ca0;
 	font-size: 30px;
 	display: block;
 	margin-top: 6px;
@@ -213,11 +219,24 @@ h2 a, h3 a, h4 a{
 	text-decoration: none;
 }
 
+
+
 h2 {
 	color: #2a4ca0;
 	font: 28px Museo500, "Trebuchet MS", Trebuchet, Tahoma, Arial;
 	margin-bottom: 10px;
 }
+
+h2.breadcrumb{
+	font-size: 18px;
+}
+
+h2 a{
+	color: #2a4ca0;
+	text-decoration: underline;
+}
+
+
 
 h3{
 	color: #2a4ca0;
@@ -227,12 +246,15 @@ h3{
 	margin-bottom: 10px;
 }
 
-h4 {
+h4 ,
+.cl_par_communes span
+{
 	font: bold 15px Ubuntu, "Trebuchet MS", Trebuchet, Tahoma, Arial;
 	color: #a8a8a8;
 	margin-bottom: 5px;
 	margin-top: 15px;
 }
+
 
 h4 a {
 	color: #7a7a7a;
@@ -307,11 +329,93 @@ span.date{
 	padding: 10px;
 }
 
+#carto-link{
+	-webkit-box-shadow: #858585 2px 2px 8px;
+	-moz-box-shadow: #858585 2px 2px 8px;
+	box-shadow: #858585 2px 2px 8px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	behavior: url(/static/css/PIE.htc);
+	outline: none;
+}
+
 img.article-logo{
 	float: left;
 	padding-right: 20px;
 	padding-bottom: 5px;
 }
+
+/* carto */
+
+div.leaflet-popup-content-wrapper{
+
+min-width: 200px;
+}
+
+div.leaflet-popup-content{
+	max-height: 160px;
+	overflow-y: auto;
+	margin-top: 40px;
+	max-width: 200px;
+}
+
+p.clocal{
+	padding: 0;
+	margin: 0;
+	font: 12px/12px Ubuntu, "Trebuchet MS", Trebuchet, Tahoma, Arial;
+}
+
+p.clocal a{
+	text-decoration: none;
+	display: block;
+	padding: 6px 3px 3px;
+}
+
+p.clocal a:hover{
+	background-color: #fbf31f;
+}
+
+.leaflet-popup-content h4{
+	margin: 0 0 10px;
+	position: absolute;
+	top: 14px;
+}
+
+
+.cl_par_communes span{
+}
+
+.cl_par_communes > div > ul{
+	float: left;
+	padding-right: 10px;
+}
+
+.cl_par_communes{
+	font-size: 12px;
+	margin-top: 30px;
+}
+
+.cl_par_communes li ul{
+	margin-bottom: 15px;
+	margin-left: 7px;
+	margin-top: 3px;
+	list-style-type: disc;
+	list-style-position: inside;
+	color: #607b3c;
+}
+
+.cl_par_communes li ul a{
+		font: 12px Ubuntu, "Trebuchet MS", Trebuchet, Tahoma, Arial;
+	text-decoration: none;
+}
+
+#map-conseil{
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+
 
 
 /* @group forms */

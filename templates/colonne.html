@@ -3,12 +3,12 @@
             <!--<div class="widget" id="search">
                 <input type="text" name="search" value="rechercher sur le site">
             </div>-->
-        
+
             <div class="widget" id="national">
                 <h4>Actualité nationale</h4>
-            
+
                 {% include 'rssplug/feed.html' %}
-        
+
             </div>
 
             <div class="widget" id="tags">
@@ -21,9 +21,11 @@
                 {% endfor %}
                 </ul>
             </div>
-            
+
             <div class="widget" id="local">
-                <h4>Conseil Locaux</h4>
-        
+                <h4>Conseil Locaux de parents d'élèves</h4>
+
+                <a href="/cartographie/"><img id="carto-link" src="{{STATIC_URL}}img/carto_link.jpg" alt"Localisez un conseil local FCPE dans le Puy-de-Dôme"></a>
+
             </div>
         </div>

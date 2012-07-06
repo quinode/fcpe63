@@ -51,8 +51,7 @@ class AdherentInline(admin.TabularInline):
     model = Adherent.conseil_local.through
     extra = 0
     raw_id_fields = ('adherent',)
-    fields = ('adherent','link','adhesion_primaire','role')
-
+    fields = ('adherent', 'link', 'adhesion_primaire', 'role')
 
 
 class ConseilAdmin(FkAutocompleteAdmin):
@@ -60,10 +59,9 @@ class ConseilAdmin(FkAutocompleteAdmin):
     list_display_links = ('nom',)
     list_editable = ('primaire','secondaire')
     related_search_fields = {  'commune': ('nom','maj','code_postal'), }
-    search_fields = ['nom','code']
+    search_fields = ['nom','code', 'commune']
     inlines = [ AdherentInline, ]
 admin.site.register(ConseilLocal,ConseilAdmin)
-
 
 
 

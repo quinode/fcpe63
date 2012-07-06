@@ -4,13 +4,13 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
-#from fcpe import templatetags 
+#from fcpe import templatetags
 
 #from autocomplete.views import autocomplete
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = patterns('',
-    url(r'^$', 'coop_cms.views.view_article', kwargs={'url':'accueil'}, name='coop_cms_view_article'),
+    url(r'^$', 'coop_cms.views.view_article', kwargs={'url': 'accueil'}, name='coop_cms_view_article'),
     url(r'^tag/(?P<slug>.*)/$', 'fcpe.views.tag', name='fcpe_tag'),
 
 #    url('^autocomplete/', include(autocomplete.urls)),
@@ -23,9 +23,9 @@ urlpatterns = patterns('',
 
     (r'^accounts/', include('django.contrib.auth.urls')),
     (r'^djaloha/', include('djaloha.urls')),
-    
+
     )
-    
+
 urlpatterns += staticfiles_urlpatterns()
 
 import sys
@@ -34,8 +34,9 @@ if settings.DEBUG or ('test' in sys.argv):
     urlpatterns += patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes':True}),
     )
-    
+
 urlpatterns += patterns('',
+    (r'^', include('fcpe.urls')),
     (r'^', include('coop_cms.urls')),
-)    
+)
 
