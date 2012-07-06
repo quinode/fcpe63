@@ -4,16 +4,25 @@
 {% block meta_title %}Carte des conseils locaux de parents d'élèves du Puy-de-Dôme{% endblock %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}leaflet/leaflet.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="{{ STATIC_URL }}leaflet/leaflet.ie.css" />
+    <![endif]-->
     {{ block.super }}
 {% endblock stylesheet %}
 
 {% block javascript %}
     {{ block.super }}
-    <script src="http://leaflet.cloudmade.com/dist/leaflet.js"></script>
+    <script src="{{ STATIC_URL }}leaflet/leaflet.js"></script>
     <script src="{{ STATIC_URL }}/js/jquery.easyListSplitter.js"></script>
 
 {% endblock javascript %}
+
+
+
+
+
+
 
 
 {% block document %}
@@ -65,6 +74,8 @@
                 fcpeGeojsonLayer.addGeoJSON(data)
 
                 map.addLayer(fcpeGeojsonLayer);
+
+                map.fitBounds(fcpeGeojsonLayer.getBounds())
 
              });
 
