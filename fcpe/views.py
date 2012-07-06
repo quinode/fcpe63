@@ -27,7 +27,7 @@ def tag(request, slug):
 
 def carto(request):
     liste_conseils = []
-    qs = ConseilLocal.objects.filter(code__istartswith="063").exclude(commune=None).order_by('commune__nom')
+    qs = ConseilLocal.objects.filter(code__istartswith="063").exclude(commune=None).exclude(code="0634Z0090").order_by('commune__nom')
     for cl in qs:
         liste_conseils.append({"nom": cl.nom, "url": cl.get_absolute_url(), "commune": cl.commune.nom})
     return render_to_response('carto.html', {"liste_conseils": liste_conseils}, RequestContext(request))
@@ -40,7 +40,7 @@ def fiche_conseil(request, code):
 
 def conseils_geojson(request):
     communes = {}
-    qs = ConseilLocal.objects.filter(code__istartswith="063").exclude(commune=None)
+    qs = ConseilLocal.objects.filter(code__istartswith="063").exclude(commune=None).exclude(code="0634Z0090")
     for cl in qs:
         if not cl.commune_id in communes:
             communes[cl.commune_id] =  {
