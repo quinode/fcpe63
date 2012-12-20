@@ -218,12 +218,28 @@ from taggit_autocomplete_modified.managers import TaggableManagerAutocomplete as
 from coop_cms.models import BaseArticle
 from django.contrib.auth.models import User
 
+try:
+    from south.modelsinspector import add_ignored_fields
+    add_ignored_fields(["^taggit_autocomplete_modified\.managers"])
+except ImportError:
+    pass  # without south this can fail silently
+
+
+PRIOS = (
+    (1, "Importante"),
+    (2, "Normale"),
+    (3, "Faible")
+)
 
 class Article(BaseArticle):
     author = models.ForeignKey(User, blank=True, default=None, null=True)
     #template = models.CharField(_(u'template'), max_length=200, blank=True, default='fcpe_article.html')
 
     tags = TaggableManager(blank=True)
+    priorite = models.SmallIntegerField("Priorité", choices=PRIOS, default=2)
+    accueil = models.BooleanField("Page d'accueil", default=True)
+    date = models.DateField("Date agenda", blank=True, null=True,
+        help_text="Remplir uniquement si cet article fait référence à un événement agenda")
 
     def can_publish_article(self, user):
         return (self.author == user)

@@ -2,8 +2,11 @@
 
 # Django settings for fcpe63 project.
 
-import os
-DIRNAME = os.path.dirname(__file__)
+
+import os.path
+PROJECT_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_NAME = 'fcpe63'
+
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -33,18 +36,21 @@ AUTH_PROFILE_MODULE = 'fcpe.adherent'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
-MEDIA_ROOT = os.path.join(DIRNAME,'media/')
+# Upload directory
+MEDIA_ROOT = os.path.abspath(PROJECT_PATH + '/' + PROJECT_NAME + '/media/')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(DIRNAME,'static_collected/')
+# Static files
+STATIC_ROOT = os.path.abspath(PROJECT_PATH + '/' + PROJECT_NAME + '/static_collected/')
 STATIC_URL = '/static/'
-ADMIN_MEDIA_PREFIX = '/static/admin/'
 
-STATICFILES_DIRS = (
-    os.path.join(DIRNAME,'static/'),
-    #os.path.abspath(ADMIN_TOOLS_PATH,'/media/'),
-)
+# compat fix ?
+ADMIN_MEDIA_PREFIX = STATIC_URL + "admin/"
 
+
+STATICFILES_DIRS = [
+   # os.path.abspath(PROJECT_PATH + '/' + PROJECT_NAME + '/static/'),
+]
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -63,25 +69,31 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'pagination.middleware.PaginationMiddleware',
-)
-
-ROOT_URLCONF = 'fcpe63.urls'
-
 TEMPLATE_DIRS = (
-    os.path.join(DIRNAME+'/templates/'),    
+    os.path.abspath(PROJECT_PATH + '/' + PROJECT_NAME + '/templates/'),
+
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
 
-INSTALLED_APPS = (
+MIDDLEWARE_CLASSES = [
+    #'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    #'django.middleware.cache.FetchFromCacheMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'pagination.middleware.PaginationMiddleware',
+]
+
+ROOT_URLCONF = 'fcpe63.urls'
+
+
+
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -95,15 +107,16 @@ INSTALLED_APPS = (
     'oembed',
 #    'adminbrowse',
     'django_mailman',
-    
+    'django_extensions',
+
     #coop_cms
-    'livesettings',
     'sorl.thumbnail',
     'html_field',
     'taggit',
     'taggit_autocomplete_modified',
     'taggit_templatetags',
     'coop_cms',
+    'coop_cms.apps.basic_cms',
     'djaloha',
     'colorbox',
     'coop_bar',
@@ -111,17 +124,37 @@ INSTALLED_APPS = (
     'fcpe',
     'form_designer',
     'pagination',
+    'tinymce',
+    'raven',
 
-)
+]
 
 JQUERY_JS = 'static/js/jquery-1.7.min.js'
 
 
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': "advanced",
+    'relative_urls': False,
+    'width': '617px', 'height': '220px',
+    'theme_advanced_toolbar_location': 'top',
+    'theme_advanced_buttons1': 'bold,italic,|,justifyleft,justifycenter,justifyright,|,bullist,numlist,|,link,unlink,|,code',
+    'theme_advanced_buttons2': '', 'theme_advanced_buttons3': ''
+    }
+
+
 DJALOHA_LINK_MODELS = ('fcpe.Article',)
 COOP_CMS_ARTICLE_CLASS = 'fcpe.models.Article'
-COOP_CMS_ARTICLE_TEMPLATES = (('fcpe_article.html','Article'),('fcpe_home.html','Page d’accueil'))
+COOP_CMS_ARTICLE_FORM = 'fcpe.admin.ArticleForm'
+
+COOP_CMS_ARTICLE_TEMPLATES = (
+    ('fcpe_article.html','Standard, résumé en chapeau'),
+    ('fcpe_article_integre.html','Standard, résumé intégré'),
+    ('fcpe_article_sans_logo.html','Sans logo, résumé en chapeau'),
+    ('fcpe_article_sans_logo_integre.html','Sans logo, résumé intégré'),
+    ('fcpe_home.html','Page d’accueil (spécial)')
+    )
 COOP_CMS_ARTICLE_LOGO_SIZE = '200'
-#COOPBAR_MODULES = ('fcpe63.cms_coop_bar',)
+COOP_BAR_MODULES = ('fcpe63.cms_coop_bar',)
 COOP_CMS_NEWSLETTER_TEMPLATES = (('fcpe_newsletter.html', 'Lettre mensuelle'),)
 COOP_CMS_FROM_EMAIL = '"FCPE 63" <contact@fcpe63.fr>'
 COOP_CMS_TEST_EMAILS = ('"Dom" <contact@quinode.fr>',)
@@ -129,24 +162,13 @@ COOP_CMS_SITE_PREFIX = 'http://127.0.0.1:8000'
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
    'django.core.context_processors.request',
+   'fcpe.context_processors.homepage_articles',
 )
 
 AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
     'utils.email_auth.EmailBackend',
     'coop_cms.perms_backends.ArticlePermissionBackend',
  )
-
-
-
-LIVESETTINGS_OPTIONS = \
-{
-    1: {
-    'DB': True,
-       'SETTINGS': {
-            u'coop_cms': {u'CONTENT_APPS': u'["coop_cms"]'}
-        }
-    }
-}
 
 
 #ADMIN_TOOLS_MENU = 'base.menu.CustomMenu'
@@ -160,50 +182,63 @@ LIVESETTINGS_OPTIONS = \
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
-CACHE_MIDDLEWARE_KEY_PREFIX = DIRNAME
+CACHE_MIDDLEWARE_KEY_PREFIX = PROJECT_NAME
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
 
-LIVESETTINGS_OPTIONS = \
-{
-    1: {
-    'DB': True,
-       'SETTINGS': {
-            u'coop_cms': {u'CONTENT_APPS': u'["coop_cms"]'}
-        }
-    }
-}
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simplest': {
+            'format': '%(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+
+    },
     'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'console-dumb': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simplest'
+        },
+
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
+        'django.db.backends': {
             'level': 'ERROR',
-            'propagate': True,
+            'handlers': ['console'],
+            'propagate': False,
         },
-    }
+    },
+
 }
-
-
 try:
     from local_settings import *
 except ImportError, exp:
-    pass
-    
-    
+    raise ImproperlyConfigured("Problem loading local_settings.py file : ", exp)
+
+
+# debug settings : load dev tools (FireLogger & Django debug Toolbar) or setup Sentry Logging
+try:
+    DEBUG_SETTINGS = {'apps': INSTALLED_APPS,
+                      'middleware': MIDDLEWARE_CLASSES,
+                      'logging': LOGGING
+                    }
+    from debug_settings import *
+except ImportError, exp:
+    raise ImproperlyConfigured("Unable to find debug_settings.py file : ", exp)

@@ -17,7 +17,7 @@
 {% block document %}
 <div class="grid_12 content_wrapper">
     <div class="content">
-    {% block content %}
+    {% block article %}
 
 
     <div id="map-conseil" style="width: 300px; height: 300px"></div>
@@ -32,6 +32,11 @@
 
         map.setView(centre, 10).addLayer(cloudmade);
 
+
+        marker = new L.Marker(centre);
+        map.addLayer(marker);
+
+/*
         var FcpeIcon = L.Icon.extend({
             iconUrl: '/static/img/pin-fcpe.png',
             shadowUrl: null,
@@ -40,7 +45,6 @@
             iconAnchor: new L.Point(14, 47),
             popupAnchor: new L.Point(2, -32)
         });
-
 
         var conseilsLocaux = {
             "type": "Feature",
@@ -57,7 +61,7 @@
         var fcpeGeojsonLayer = new L.GeoJSON(conseilsLocaux, {
             pointToLayer: function (latlng){
                 return new L.Marker(latlng, {
-                    icon: new FcpeIcon()
+                   // icon: new FcpeIcon()
                 });
             }
         });
@@ -72,7 +76,7 @@
 
         fcpeGeojsonLayer.addGeoJSON(conseilsLocaux);
 
-
+*/
 
     </script>
 
@@ -92,21 +96,42 @@
         <h4>Description</h4>
         <div class="cldiv desc">
             {% if conseil.nb_adherents > 0 %}
-            {{conseil.nb_adherents}} adhérent{{conseil.nb_adherents|pluralize}}.<br/>
-
+                {{conseil.nb_adherents}} adhérent{{conseil.nb_adherents|pluralize}}.<br/>
+{% comment %}
             <ul>
                 {% for a in conseil.responsables %}
                     <li><b>{{ a.role.libelle }}</b> : {{a.adherent.prenom}} {{a.adherent.nom}}
                 {% endfor %}
             </ul>
+{% endcomment %}
             {% endif %}
+        </div>
+
+
+        <h4>Etablissements scolaire concernés</h4>
+        <div class="cldiv desc">
+
+            <ul>
+                {% for etab in conseil.etablissement_set.all %}
+                    <li><div>
+                            <strong>{{ etab.nom }}</strong><br>
+                            {% if etab.adr1 %}{{ etab.adr1 }}<br>{% endif %}
+                            {% if etab.adr2 %}{{ etab.adr2 }}<br>{% endif %}
+                            {% if etab.commune %}{{ etab.commune.code_postal }} {{ etab.commune.nom }}<br>{% endif %}
+                            <br></div>
+                    </li>
+                {% endfor %}
+            </ul>       
+
+
+
         </div>
 
     </div>
 
 
 
-    {% endblock content %}
+    {% endblock article %}
 
     </div>
 </div>

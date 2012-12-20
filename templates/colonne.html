@@ -11,21 +11,29 @@
 
             </div>
 
-            <div class="widget" id="tags">
-                <h4>Thématiques</h4>
-                <ul class="tags">
-                {% get_taglist as tags for 'fcpe.article' %}
-                {% for tag in tags %}
-                    <li>
-                        <a href="/tag/{{tag.slug}}/">{{tag}} ({{tag.num_times}})</a></li>
-                {% endfor %}
-                </ul>
+            <div class="widget" id="rss_link">
+                <a href="/rss/"><img src="{{STATIC_URL}}img/fcpe/rss.jpg" width="28" height="32" alt="RSS"> Abonnez-vous au flux RSS du site</a>
             </div>
 
-            <div class="widget" id="local">
-                <h4>Conseil Locaux de parents d'élèves</h4>
 
-                <a href="/cartographie/"><img id="carto-link" src="{{STATIC_URL}}img/carto_link.jpg" alt"Localisez un conseil local FCPE dans le Puy-de-Dôme"></a>
+            <div id="fixcol_wrapper">
 
+                <div class="widget" id="tags">
+                    <h4>Thématiques</h4>
+                    <ul class="tags">
+                    {% get_taglist as tags for 'fcpe.article' %}
+                    {% for tag in tags %}
+                        <li>
+                            <a href="/tag/{{tag.slug}}/">{{tag}} ({{tag.num_times}})</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="widget" id="local">
+                    <h4>Conseil Locaux de parents d'élèves</h4>
+
+                    <a href="/cartographie/"><img id="carto-link" src="{{STATIC_URL}}img/fcpe/carto_link.jpg" alt="Localisez un conseil local FCPE dans le Puy-de-Dôme"></a>
+
+                </div>
             </div>
         </div>

@@ -1,17 +1,14 @@
-{% load i18n static coop_bar_tags coop_navigation %}
-<html>
+{% load i18n static coop_bar_tags coop_navigation %}<!DOCTYPE html>
+<html lang="fr">
 <head>
     {% block extra-head %}{% endblock %}
     <meta http-equiv="X-UA-Compatible" content="IE=8">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta name="description" content="{% block meta_description %}{% endblock %}" />
-    <meta name="google-site-verification" content="QLXJbEBuQxJgE1XcKht7ybGcac8d3yMhO4DKSJTSjDE" />
-    <title>{% block meta_title %}{% endblock %} | FCPE 63</title>
+    <link rel="alternate" type="application/rss+xml" title="Actualités FCPE 63" href="http://www.fcpe63.fr/rss/"/>
+    <link rel="shortcut icon" type="image/png" href="{{ STATIC_URL }}img/fcpe/favicon.png"/>  
 
-    {% block javascript %}
-    <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/humanmsg.js"></script>
-    {% endblock %}
+    <title>{% block meta_title %}{% endblock %} | FCPE 63</title>
 
     {% block stylesheet %}
         <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css" />
@@ -20,10 +17,24 @@
     {% endblock %}
 
     {% block jquery_declaration %}
+    <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}js/jquery-1.7.2.min.js"></script>
     {% endblock %}
+
+    {% block javascript %}
+    {% endblock javascript %}
+
     {% coop_bar_headers %}
     {% block extra_head %}{% endblock %}
 
+    <style type="text/css">
+        <!-- Aloha Editor alignment styles -->
+        .aloha-align-left {text-align: left;}
+        .aloha-align-right {text-align: right;}
+        .aloha-align-center {text-align: center;}
+        .aloha-align-justifiy {text-align: justify;}
+        img.aloha-align-left {float: left;}
+        img.aloha-align-right {float: right;}
+    </style>
 
 </head>
 <body>
@@ -34,7 +45,7 @@
     <h1><a href="/">Conseil Départemental des Parents d’Élèves</a><br/>
         <span><a href="/">Puy-de-Dôme (63)</a></span>
         </h1>
-    <a href="/"><img alt="logo" id="logo" src="{{ STATIC_URL }}img/logo80.png" border="0"/></a>
+    <a href="/"><img alt="logo" id="logo" src="{{ STATIC_URL }}img/fcpe/logo80.png" border="0"/></a>
     </div>
     <div id="menubar">
 
@@ -43,7 +54,7 @@
         {% navigation_as_nested_ul li_template="coop_cms/menu_li.html" %}
 
 
-        <li><a href="/formulaire/contact/"><img src="{{ STATIC_URL }}img/email.png" alt="email" id="email">
+        <li><a href="/formulaire/contact/"><img src="{{ STATIC_URL }}img/fcpe/email.png" alt="email" id="email">
             Contactez la FCPE 63</a><li>
     </ul>
 
@@ -58,10 +69,11 @@
 
         <div class="grid_8 content_wrapper">
             <div class="content">
-        {% block content %}
-        {% block title %}<h2>Titre de la page</h2>{% endblock %}
+                
+        {% block article %}
+            {% block title %}<h2>Titre de la page</h2>{% endblock %}
             <!--contenu-->
-        {% endblock content %}
+        {% endblock article %}
             </div>
         </div>
 
@@ -88,13 +100,20 @@
 
 </div>
 
+{% coop_bar_footer %}
 
-{% block page-close %}
+<!-- Piwik 
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.quinode.fr/" : "http://stats.quinode.fr/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://stats.quinode.fr/piwik.php?idsite=2" style="border:0" alt="" /></p></noscript>
+ End Piwik Tracking Code -->
 
-
-    {% include "coop_cms/_messages.html" %}
-
-
-{% endblock %}
-
-</body></html>
+</body>
+</html>

@@ -1,38 +1,32 @@
-{% extends "coop_cms/article.html" %}
-{% load i18n coop_edition %}
+{% extends "fcpe_article_sans_logo.html" %}
+{% load i18n coop_edition pagination_tags %}
 
-{% block document %}
-<div class="grid_8 content_wrapper">
-    <div class="content">
-    {% block content %}
-    
-        {% block article %}
-        {% cms_edit article %} 
-            {% spaceless %}
-                {% block title %}<h2 id="title">{{article.title|safe}}</h2>{% endblock %}
-                {% comment %} {% if article.logo %}
-                    <span class="the-logo">{{ article.logo }}</span>
-                {% endif %} {% endcomment %}
-                {{article.content|safe}}
-            {% endspaceless %}
+
+    {% block article %}
+
+        {% cms_edit article %}
+
+            <h2 id="title">{{article.title|safe}}</h2>
+            {{article.content|safe}}
         {% end_cms_edit %}
-        {% endblock article %}
-        
-        {% if article.slug == 'accueil' %}
-            <br/>
-            <h3>Derniers articles</h3>
-            {% include 'coop_cms/article_list.html' %}
+
+        {% if_cms_edition %}
+            {% include "coop_cms/_article_publication.html" %}
         {% endif %}
         
-    {% endblock content %}
-    
-    </div>
-    </div>
-    
-    <div class="grid_4 colonne_wrapper">
-    {% block colonne %}
-        {% include "colonne.html" %}
-    {% endblock colonne %}
-    </div>
+        <br>
+        <h3>Derniers articles</h3>
 
-{% endblock %}
+        <ul class="last_articles">
+            {% autopaginate homepage_articles 10 %}
+            {% for item in homepage_articles %}
+                {% include 'coop_cms/article_list_item.html' %}
+            {% endfor %}
+        </ul>
+
+        <div id="paginator">
+            {% paginate %}
+        </div>
+        <br>
+
+    {% endblock %}

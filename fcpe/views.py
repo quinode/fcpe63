@@ -7,14 +7,17 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 #from taggit.models import Tag
 from django.contrib.auth.models import User
-
+from django.conf import settings
 from fcpe.models import ConseilLocal
 from taggit.models import Tag
 from fcpe.models import Article
 import json
 
+
 def home(request):
     rdict = {}
+    rdict['home_page_articles'] = Article.objects.filter(accueil=True).order_by('priorite', '-created')
+    print rdict
     return render_to_response('index.html', rdict, RequestContext(request))
 
 

@@ -1,18 +1,29 @@
 {% load i18n thumbnail %}
 <li>
-    <h4><a href="{{ item.get_absolute_url }}">{{ item.title|safe }}</a></h4>
 
-    <div class="article_details"><span class="date">
-        posté il y a {% blocktrans with item.created|timesince as when %}{{ when }}
-        {% endblocktrans %}</span>
-        <ul class="tags">{% for tag in item.tags.all %}
-        <li><a href="/tag/{{tag.slug}}/">{{tag}}</a></li>
-        {% endfor %}
+    {% comment %}
+    <div class="article_details">
+        <ul class="tags">{% for tag in item.tags.all %}<li><a href="/tag/{{tag.slug}}/">{{tag}}</a></li>{% endfor %}
     </div>
+    {% endcomment %}
+        <h4><a href="{{ item.get_absolute_url }}">{{ item.title|safe }}</a></h4>
+
     <p>
     {% thumbnail item.logo "50" as im %}
         <img class="article-list-icon" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
     {% endthumbnail %}
-    
-    {{ item.content|safe|truncatewords_html:30 }}</p>
+
+    {% if item.summary %}
+        {{ item.summary|safe }}
+    {% else %}
+        {{ item.content|safe|truncatewords_html:40 }}
+    {% endif %}
+
+    </p>
+
+
+    <span class="date">
+        posté il y a {% blocktrans with item.created|timesince as when %}{{ when }}
+        {% endblocktrans %}</span>
+    <span class="more"><a href="{{ item.get_absolute_url}}">Lire la suite...</a></span>
 </li>

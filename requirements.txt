@@ -1,20 +1,24 @@
+git+git://github.com/gabrielgrant/django-html-field.git
+BeautifulSoup==3.2.0
 Django==1.3.1
 South==0.7.3
-django-extensions==0.7.1
--e git+git://github.com/quinode/coop-bar.git#egg=coop_bar
--e git+git://github.com/quinode/coop_cms.git#egg=coop_cms
--e git+git://github.com/quinode/djaloha.git#egg=djaloha
--e git+git://github.com/gabrielgrant/django-html-field.git#egg=html_field
--e hg+https://bitbucket.org/ubernostrum/django-profiles#egg=profiles
-django-keyedcache==1.4-1
-django-livesettings==1.4-7
-sorl-thumbnail==11.09
+django-admin-tools==0.4.0
+django-extensions==0.9
+django-floppyforms==0.4.7
+django-pagination==1.0.7
+django-picklefield==0.1.9
 django-taggit==0.9.3
 django-taggit-autocomplete-modified==0.1.0b4
 django-taggit-templatetags==0.4.6dev
-django-picklefield==0.1.9
-feedparser==5.0.1
-BeautifulSoup==3.2.0
+django-templatetag-sugar==0.1
+djangoembed==0.1.1
 httplib2==0.7.2
 simplejson==2.3.2
-djangoembed==0.1.1
+git+git://github.com/quinode/coop-colorbox.git
+git+git://github.com/quinode/djaloha.git
+git+git://github.com/quinode/coop-bar.git
+git+git://github.com/quinode/coop_cms.git
+django-tinymce
+django-debug-toolbar
+FirePython
+raven

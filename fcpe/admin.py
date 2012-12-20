@@ -1,23 +1,31 @@
 # -*- coding:utf-8 -*-
+
 from django.contrib import admin
 from django import forms
-from django.contrib.admin.widgets import FilteredSelectMultiple
 from fcpe.models import *
-from django_mailman.models import List
-
-from fcpe.autocomplete_admin import FkAutocompleteAdmin,InlineAutocompleteAdmin
-from django.utils.translation import ugettext_lazy as _
-
-
-#from autocomplete.views import autocomplete, AutocompleteSettings
-#from autocomplete.admin import AutocompleteAdmin
-
-
+from fcpe.autocomplete_admin import FkAutocompleteAdmin, InlineAutocompleteAdmin
+from django.contrib.admin.widgets import AdminTextInputWidget
 from django.utils.safestring import mark_safe
 from django.utils.html import escape
-
-
 import unicodedata
+
+from django.db.models.loading import get_app, get_models
+from django.contrib.sites.models import Site
+from django.contrib.auth.models import Group
+from coop_cms.settings import get_navTree_class
+
+admin.site.unregister(Group)
+admin.site.unregister(Site)
+admin.site.unregister(get_navTree_class())
+
+for app in ['coop_cms', 'communes', 'oembed']:
+    for mod in get_models(get_app(app)):
+        try:
+            admin.site.unregister(mod)
+        except:
+            pass
+
+
 def to_ascii(input_str):
     nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
     only_ascii = nkfd_form.encode('ASCII', 'ignore')
@@ -28,6 +36,7 @@ class AdherLinkWidget(forms.Widget):
     def __init__(self, obj, attrs=None):
         self.object = obj
         super(AdherLinkWidget, self).__init__(attrs)
+
     def render(self, name, value, attrs=None):
         if self.object.pk:
             return mark_safe(u'<a href="../../../%s/%s/%s/">%s</a>' % (self.object._meta.app_label,
@@ -38,10 +47,12 @@ class AdherLinkWidget(forms.Widget):
 
 class AdherMoreForm(forms.ModelForm):
     link = forms.CharField(label='link', required=False)
+
     def __init__(self, *args, **kwargs):
         super(AdherMoreForm, self).__init__(*args, **kwargs)
         # instance is always available, it just does or doesn't have pk.
         self.fields['link'].widget = AdherLinkWidget(self.instance)
+
     class Meta:
         model = Adherent.conseil_local.through
 
@@ -55,85 +66,81 @@ class AdherentInline(admin.TabularInline):
 
 
 class ConseilAdmin(FkAutocompleteAdmin):
-    list_display = ('nom','primaire','secondaire','code','nb_adherents','code_postal','commune')
+    list_display = ('nom', 'primaire', 'secondaire', 'code', 'nb_adherents', 'code_postal', 'commune')
     list_display_links = ('nom',)
-    list_editable = ('primaire','secondaire')
-    related_search_fields = {  'commune': ('nom','maj','code_postal'), }
-    search_fields = ['nom','code', 'commune']
-    inlines = [ AdherentInline, ]
-admin.site.register(ConseilLocal,ConseilAdmin)
-
-
+    list_editable = ('primaire', 'secondaire')
+    related_search_fields = {'commune': ('nom', 'maj', 'code_postal')}
+    search_fields = ['nom', 'code', 'commune__nom', 'commune__code_postal', 'commune__maj']
+    inlines = [AdherentInline]
+admin.site.register(ConseilLocal, ConseilAdmin)
 
 
 class ParentLinkWidget(forms.Widget):
     def __init__(self, obj, attrs=None):
         self.object = obj
         super(ParentLinkWidget, self).__init__(attrs)
+
     def render(self, name, value, attrs=None):
         if self.object.pk:
             return mark_safe(u'<b><a href="../../../fcpe/adherent/%s/">%s</a></b>' % (self.object.pk, u'Fiche adhérent'))
         else:
             return mark_safe(u'')
 
+
 class ParentInlineForm(forms.ModelForm):
     link = forms.CharField(label='link', required=False)
+
     def __init__(self, *args, **kwargs):
         super(ParentInlineForm, self).__init__(*args, **kwargs)
         # instance is always available, it just does or doesn't have pk.
         self.fields['link'].widget = ParentLinkWidget(self.instance)
+
     class Meta:
         model = Adherent
 
 
-
-
 class FamilleInline(InlineAutocompleteAdmin):
     model = Enfant
-    fields = ('nom','prenom','classe','etablissement')
-    related_search_fields = {  'etablissement': ('nom','commune__nom','commune__code_postal'), }
+    fields = ('nom', 'prenom', 'classe', 'etablissement')
+    related_search_fields = {'etablissement': ('nom', 'commune__nom', 'commune__code_postal')}
     extra = 0
 
 
 class ParentsInline(InlineAutocompleteAdmin):
     model = Adherent
     form = ParentInlineForm
-    fields = ('nom','prenom','link','telephone','mobile','email')
+    fields = ('nom', 'prenom', 'link', 'telephone', 'mobile', 'email')
     extra = 0
 
 
 class FoyerAdmin(FkAutocompleteAdmin):
-    list_display = ('__unicode__','nom_adherent1','nb_enfants','commune',)
-    related_search_fields = {  'commune': ('nom','maj','code_postal'), }
-    search_fields = ['code_foyer','commune__code_postal','commune__nom','commune__maj','rattachement__nom']
-    inlines = [ParentsInline,FamilleInline]
-admin.site.register(Foyer,FoyerAdmin)
+    list_display = ('__unicode__', 'nom_adherent1', 'nb_enfants', 'commune',)
+    related_search_fields = {'commune': ('nom', 'maj', 'code_postal')}
+    search_fields = ['code_foyer', 'commune__code_postal', 'commune__nom', 'commune__maj', 'rattachement__nom']
+    inlines = [ParentsInline, FamilleInline]
+admin.site.register(Foyer, FoyerAdmin)
 
 
 class EngagementInline(InlineAutocompleteAdmin):
     model = Engagement
-    related_search_fields = {  'conseil_local': ('nom','commune__nom','commune__code_postal'), }
+    related_search_fields = {'conseil_local': ('nom', 'commune__nom', 'commune__code_postal')}
     extra = 1
 
-
-from django.contrib.admin.widgets import AdminTextInputWidget
-from django.core.urlresolvers import reverse
 
 class LinkWidget(AdminTextInputWidget):
     def render(self, name, value, attrs=None):
         #s = super(AdminTextInputWidget, self).render(name, value, attrs)
-        s = '<a href="%s">%s</a>' % ( value,
+        s = '<a href="%s">%s</a>' % (value,
             #reverse('admin:fcpe_foyer_change', (value.foyer.id,)),
             'Voir la fiche du foyer')
         return mark_safe(s)
-
 
 
 class ModelLinkWidget(forms.HiddenInput):
     def __init__(self, admin_site, original_object):
         self.admin_site = admin_site
         self.original_object = original_object
-        super(ModelLinkWidget,self).__init__()
+        super(ModelLinkWidget, self).__init__()
 
     def render(self, name, value, attrs=None):
         if value is not None:
@@ -145,6 +152,7 @@ class ModelLinkWidget(forms.HiddenInput):
             return super(ModelLinkWidget, self).render(name, value, attrs) + mark_safe('''<a href="%s">%s</a>''' % (link, escape(unicode(self.original_object))) + enfants)
         else:
             return mark_safe(u'<b>Vous ajoutez un adhérent sans avoir préalablement <a href="/admin/fcpe/foyer/add/">créé son Foyer</a> ! </b>')
+
 
 class ModelLinkAdminFields(object):
     def get_form(self, request, obj=None):
@@ -160,39 +168,47 @@ class ModelLinkAdminFields(object):
 
 class AdherentAdminForm(forms.ModelForm):
     lien_foyer = forms.CharField(max_length=250)
+
     def __init__(self, *args, **kwargs):
         super(AdherentAdminForm, self).__init__(*args, **kwargs)
         self.fields['lien_foyer'].required = False
         self.fields['lien_foyer'].widget = LinkWidget()
+
     class Meta:
         model = Adherent
 
+
 class PersonneAdmin(admin.ModelAdmin):
-    list_display = ('nom', 'prenom', 'partenaire','email')
+    list_display = ('nom', 'prenom', 'partenaire', 'email')
     filter_horizontal = ('listes',)
     list_filter = ('partenaire',)
-    search_fields = ['nom','prenom','email']
+    search_fields = ['nom', 'prenom', 'email']
+
     def save_model(self, request, obj, form, change):
         #prev = obj.listes.values_list('id',flat=True)
         if change:
             prev = obj.listes.all()
             new = form.cleaned_data['listes']
             #print prev,new
-            for liste in prev :
-                if liste not in new :
+            for liste in prev:
+                if liste not in new:
                     liste.unsubscribe(form.cleaned_data['email'])
-                    print "desinscription de %s de la liste %s" % (form.cleaned_data['email'],liste.name)
-            for liste in new :
+                    print "desinscription de %s de la liste %s" % (form.cleaned_data['email'], liste.name)
+            for liste in new:
                 if form.cleaned_data['email'] == '':
                     raise forms.ValidationError("Pour inscrire une personne sur une liste, l'e-mail doit etre valide.")
-                if liste not in prev :
-                    print "inscription de %s (%s %s) sur %s" % (form.cleaned_data['email'],to_ascii(form.cleaned_data['prenom']), to_ascii(form.cleaned_data['nom']), liste.name)
+                if liste not in prev:
+                    print "inscription de %s (%s %s) sur %s" % (form.cleaned_data['email'],
+                                                                to_ascii(form.cleaned_data['prenom']),
+                                                                to_ascii(form.cleaned_data['nom']),
+                                                                liste.name
+                                                                )
                     liste.subscribe(    form.cleaned_data['email'],
                                         to_ascii(form.cleaned_data['prenom']),
                                         to_ascii(form.cleaned_data['nom']))
         super(PersonneAdmin, self).save_model(request, obj, form, change)
-admin.site.register(Personne,PersonneAdmin)
 
+admin.site.register(Personne,PersonneAdmin)
 
 
 class AdherentAdmin(PersonneAdmin,ModelLinkAdminFields, FkAutocompleteAdmin):
@@ -246,16 +262,53 @@ admin.site.register(Role)
 admin.site.register(AnneeScolaire)
 
 
-
+from tinymce.widgets import AdminTinyMCE
+from sorl.thumbnail.admin import AdminImageMixin
 from coop_cms.admin import ArticleAdmin
 from coop_cms.settings import get_article_class
+from coop_cms.forms import ArticleAdminForm
+from south.modelsinspector import add_introspection_rules
 
-class ArticleFCPE(ArticleAdmin):
+add_introspection_rules([], ["^fcpe\.stuff\.fields\.SomeNewField"])
+
+
+import floppyforms as forms
+from coop_cms.forms import ArticleForm as CmsArticleForm
+from djaloha.widgets import AlohaInput
+
+class ArticleForm(CmsArticleForm):
+    class Meta:
+        model = get_article_class()
+        fields = ('title', 'summary', 'content', 'logo')
+        widgets = {
+            'title': AlohaInput(text_color_plugin=False),
+            'summary': AlohaInput(text_color_plugin=False),
+            'content': AlohaInput(text_color_plugin=False),
+        }
+
+class MyAdminArticleForm(ArticleAdminForm):
+    content = forms.CharField(widget=AdminTinyMCE(attrs={'cols': 80, 'rows': 30}), required=False)
+
+
+class ArticleFCPE(ArticleAdmin, AdminImageMixin):
+    form = MyAdminArticleForm
+    list_filter = ['category']
+    search_fields = ['title', 'summary', 'content']
     list_filter = ('tags',)
+
+    list_display = ['logo_list_display', 'title', 'publication', 'priorite', 'accueil']
+    list_editable = ['publication', 'priorite', 'accueil']
+    list_display_links = ['title']
+
+    readonly_fields = []
     fieldsets = (
-        #('Arborescence', {'fields': ('navigation_parent',)}),
-        ('Contenu', {'fields': ('title', 'content','tags',('publication','template'),'logo')}),
+        #(_('Navigation'), {'fields': ('navigation_parent',)}),
+        ('Contenu', {'fields': ('logo', 'title', 'summary', 'content', 'tags')}),
+        ('Options', {'fields': ('template', 'publication', 'accueil')}),
+        ('Agenda', {'fields': ('date',)}),
+
     )
+
 admin.site.unregister(get_article_class())
 admin.site.register(get_article_class(), ArticleFCPE)
 

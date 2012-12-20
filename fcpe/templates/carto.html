@@ -15,20 +15,14 @@
     {{ block.super }}
     <script src="{{ STATIC_URL }}leaflet/leaflet.js"></script>
     <script src="{{ STATIC_URL }}/js/jquery.easyListSplitter.js"></script>
-
+    <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.1.2"></script>
 {% endblock javascript %}
-
-
-
-
-
-
 
 
 {% block document %}
 <div class="grid_12 content_wrapper">
     <div class="content">
-    {% block content %}
+    {% block article %}
 
 
     {% block title %}<h2 id="title">Carte des conseils locaux de parents d'élèves du Puy-de-Dôme</h2>{% endblock %}
@@ -37,13 +31,22 @@
 
     <script>
         var map = new L.Map('map');
-        var trezioux = new L.LatLng(45.721997, 3.469887); // geographical point (longitude and latitude)
+        //var ailleurs = new L.LatLng(45.654827, 3.430401); // geographical point (longitude and latitude)
+
+
+        var noms = new L.StamenTileLayer("toner-labels");
+        var fond = new L.StamenTileLayer("watercolor");
+
 
         var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
             cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
             cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
 
-        map.setView(trezioux, 10).addLayer(cloudmade);
+        //map.setView(ailleurs, 10).addLayer(cloudmade);
+
+        map.addLayer(fond);
+        map.addLayer(noms);
+
 
         var FcpeIcon = L.Icon.extend({
             iconUrl: '/static/img/pin-fcpe.png',
@@ -83,7 +86,6 @@
 
 
     </script>
-
 <br/> <br/>
 
     <h3> Liste des conseils locaux par commune </h3>
@@ -104,7 +106,7 @@
     </div>
 
 
-    {% endblock content %}
+    {% endblock article %}
     </div>
 </div>
 

@@ -1,42 +1,32 @@
-{% extends "coop_cms/article.html" %}
-{% load i18n coop_edition oembed_tags %}
+{% extends "fcpe_article_sans_logo.html" %}
+{% load i18n coop_navigation coop_edition %}
 
-{% block document %}
-<div class="grid_8 content_wrapper">
-    <div class="content">
-    {% block content %}
-    
-        {% block article %}
+    {% block article %}
+
         {% cms_edit article logo_size=200 %}
-            {% spaceless %}
-                {% block title %}<h2 id="title">{{article.title|safe}}</h2>{% endblock %}
-                {% if article.logo %}
-                    <span class="the-logo" style="align:right;padding-right:20px">{{ article.logo }}</span>
-                {% endif %}
-                {{article.content|oembed|safe}}
-            {% endspaceless %}
+            <h2 id="title">{{article.title|safe}}</h2>
+            <div class="summary">{{ article.summary }}</div>
+
+            <span class="the-logo" style="float:left;padding-right:20px;padding-bottom:10px;">{{ article.logo }}</span>
+            {{article.content|safe}}
+
+            <div class="article_meta">
+                <!--<div class="author">{{ article.person }}</div>-->
+            </div>
+
         {% end_cms_edit %}
-        {% endblock article %}
-        
+
+        {% if_cms_edition %}
+            {% include "coop_cms/_article_publication.html" %}
+        {% endif %}
+
+{% comment %}
         {% if article.slug == 'accueil' %}
             <br/>
             <h3>Derniers articles</h3>
             {% include 'coop_cms/article_list.html' %}
         {% endif %}
-        
-    {% endblock content %}
-    
-    </div>
-    </div>
-    
-    <div class="grid_4 colonne_wrapper">
-    {% block colonne %}
-        {% include "colonne.html" %}
-    {% endblock colonne %}
-    </div>
 
+{% endcomment %}
 
-
-
-{% endblock %}
-
+    {% endblock article %}
